@@ -34,6 +34,10 @@ namespace Shop
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+            });
 
             app.UseEndpoints(endpoints =>
             {
