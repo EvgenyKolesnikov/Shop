@@ -31,7 +31,7 @@ namespace Shop.Repository
      
             item.Name = product.Name;
             item.Price = product.Price;
-            item.Category = product.Category;
+            item.CategoryId = product.CategoryId;
         }
 
         public void Delete(Product product)

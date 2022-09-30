@@ -1,4 +1,7 @@
-﻿using Shop.Model;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Shop.Database;
+using Shop.Model;
 using Shop.Repository;
 
 namespace Shop
@@ -22,6 +25,9 @@ namespace Shop
             services.AddSwaggerGen();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+            services.AddMediatR(typeof(Startup));
+
+            AddDbContext(services);
 
 
             services.AddTransient<IProductRepository<Product>, ProductRepository>();
@@ -33,7 +39,7 @@ namespace Shop
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
-            app.UseAuthorization();
+           // app.UseAuthorization();
             app.UseCors(builder =>
             {
                 builder.AllowAnyOrigin();
@@ -47,6 +53,12 @@ namespace Shop
             });
 
 
+        }
+
+        private void AddDbContext(IServiceCollection services)
+        {
+            services.AddDbContext<ShopDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
 
@@ -9,10 +10,12 @@ namespace Shop.Controllers
     public class ShopController : ControllerBase
     {
         IProductRepository<Product> _productRepository;
+        ShopDbContext _shopDbContext;
 
-        public ShopController(IProductRepository<Product> productRepository)
+        public ShopController(IProductRepository<Product> productRepository,ShopDbContext shopDbContext)
         {
             _productRepository = productRepository;
+            _shopDbContext = shopDbContext;
         }
 
         [HttpPost("CreateProduct")]
