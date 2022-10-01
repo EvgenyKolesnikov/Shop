@@ -26,7 +26,6 @@ namespace Shop.AdminPanel.Handlers
                 Price = request.Price,
                 Rating = request.Rating,
             };
-            await _shopDbContext.Entry(category).Collection(x => x.Features).LoadAsync();
             foreach (var feature in category.Features) 
             {
                 var value = new FeatureValue
@@ -37,6 +36,7 @@ namespace Shop.AdminPanel.Handlers
                 product.Features.Add(value);
             }
             await _shopDbContext.Products.AddAsync(product);
+            await _shopDbContext.SaveChangesAsync();
             return product.Id;
         }
     }

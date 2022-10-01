@@ -18,14 +18,12 @@ namespace Shop.AdminPanel.Handlers
         {
             var feature = _shopDbContext.Features.Find(request.FeatureId);
             if (feature == null) return Unit.Value;
-            await _shopDbContext.Entry(feature).Collection(x => x.Categories).LoadAsync();
             if (feature.Categories.Any(x => x.Id == request.CategoryId)) return Unit.Value;
             var category = _shopDbContext.Categories.Find(request.CategoryId);
             if (category == null) return Unit.Value;
 
             feature.Categories.Add(category);
 
-            await _shopDbContext.Entry(category).Collection(x => x.Products).LoadAsync();
             foreach (var product in category.Products)
             {
                 var value = new FeatureValue
@@ -33,7 +31,7 @@ namespace Shop.AdminPanel.Handlers
                     Product = product,
                     Feature = feature,
                 };
-                _shopDbContext.FeatureValues.Add(value);
+                await _shopDbContext.FeatureValues.AddAsync(value);
             }
 
             await _shopDbContext.SaveChangesAsync();

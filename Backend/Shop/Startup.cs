@@ -58,7 +58,9 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlite($"Filename=D:\\ShopDb.db")
+            .UseLazyLoadingProxies());
         }
     }
 }

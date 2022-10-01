@@ -22,7 +22,6 @@ namespace Shop.AdminPanel.Handlers
                 ParentCategoryId = command.ParentCategoryId
             };
 
-
             await _shopDbContext.Categories.AddAsync(category);
             await _shopDbContext.SaveChangesAsync();
             
