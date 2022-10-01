@@ -4,7 +4,7 @@ namespace Shop.Repository
 {
     public static class TestData
     {
-        public static List<Product> products = new List<Product>()
+        public static List<Product> Products { get; } = new List<Product>()
             {
                 new Product { Id = 1, Name = "RedBook", CategoryId = 1,Price = 123 },
                 new Product { Id = 2, Name = "GreenBook", CategoryId = 1, Price = 200},

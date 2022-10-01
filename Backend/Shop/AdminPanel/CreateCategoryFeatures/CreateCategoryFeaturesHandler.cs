@@ -17,15 +17,15 @@ namespace Shop.AdminPanel.CreateCategoryFeatures
         {
             var feature = new Feature()
             {
-                CategoryId = command.CategoryId,
-                FeatureName = command.FeatureName
+                Name = command.FeatureName,
+                //TODO фича должна связывать с категорией в отдельном методе, т.к. ее можно создавать и без категории
+                //при связывании с категорией, нужно для всех продуктов этой категории создать пустые фича-значения
             };
 
             await _shopDbContext.AddAsync(feature);
             await _shopDbContext.SaveChangesAsync();
 
-
-            return feature.FeatureId;
+            return feature.Id;
         }
     }
 }

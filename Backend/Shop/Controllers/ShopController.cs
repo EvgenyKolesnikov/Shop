@@ -12,7 +12,7 @@ namespace Shop.Controllers
         IProductRepository<Product> _productRepository;
         ShopDbContext _shopDbContext;
 
-        public ShopController(IProductRepository<Product> productRepository,ShopDbContext shopDbContext)
+        public ShopController(IProductRepository<Product> productRepository, ShopDbContext shopDbContext)
         {
             _productRepository = productRepository;
             _shopDbContext = shopDbContext;

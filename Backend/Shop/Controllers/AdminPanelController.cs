@@ -19,7 +19,6 @@ namespace Shop.Controllers
         }
 
 
-
         [HttpPost("CreateCategory")]
         public async Task<int> CreateCategory(CreateCategoryCommand command)
         {

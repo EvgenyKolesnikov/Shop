@@ -3,18 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shop.Model
 {
-    public class Feature
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int FeatureId { get; set; }
-        
-        [Required]
-        public int CategoryId { get; set; }
-        
-        public string? FeatureName { get; set; }
-
-        public List<FeatureValues>? FeatureValues { get; set; }  
-        
+    public class Feature : Entity
+    {        
+        public virtual List<Category> Categories { get; set; }  = new List<Category>();
+        public string? Name { get; set; }
     }
 }
