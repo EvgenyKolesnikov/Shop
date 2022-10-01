@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using Shop.AdminPanel.Commands;
 using Shop.Database;
 using Shop.Model;
 
-namespace Shop.AdminPanel.CreateCategoryFeatures
+namespace Shop.AdminPanel.Handlers
 {
     public class CreateCategoryFeaturesHandler : IRequestHandler<CreateCategoryFeaturesCommand, int>
     {
@@ -17,9 +18,7 @@ namespace Shop.AdminPanel.CreateCategoryFeatures
         {
             var feature = new Feature()
             {
-                Name = command.FeatureName,
-                //TODO фича должна связывать с категорией в отдельном методе, т.к. ее можно создавать и без категории
-                //при связывании с категорией, нужно для всех продуктов этой категории создать пустые фича-значения
+                Name = command.Name
             };
 
             await _shopDbContext.AddAsync(feature);

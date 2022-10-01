@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shop.AdminPanel.CreateCategoryFeatures
+namespace Shop.AdminPanel.Commands
 {
     public class CreateCategoryFeaturesCommand : IRequest<int>
     {
-        [Required]
-        public int CategoryId { get; set; }
-        public string? FeatureName { get; set; }
+        public string? Name { get; set; }
     }
 }

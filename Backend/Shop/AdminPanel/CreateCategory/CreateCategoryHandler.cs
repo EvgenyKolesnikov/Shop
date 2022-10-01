@@ -5,7 +5,6 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-
     public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand,int>
     {
         private readonly ShopDbContext _shopDbContext;
