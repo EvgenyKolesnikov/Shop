@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Shop.AdminPanel.Commands;
 using Shop.Database;
+using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
@@ -23,6 +24,18 @@ namespace Shop.AdminPanel.Handlers
             if (category == null) return Unit.Value;
 
             feature.Categories.Add(category);
+
+            await _shopDbContext.Entry(category).Collection(x => x.Products).LoadAsync();
+            foreach (var product in category.Products)
+            {
+                var value = new FeatureValue
+                {
+                    Product = product,
+                    Feature = feature,
+                };
+                _shopDbContext.FeatureValues.Add(value);
+            }
+
             await _shopDbContext.SaveChangesAsync();
             return Unit.Value;
         }
