@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.Commands;
+using Shop.AdminPanel.CreateCategoryFeatures;
 
 namespace Shop.Controllers
 {
@@ -23,7 +24,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost("CreateCategoryFeatures")]
-        public async Task<int> CreateFeature(CreateCategoryFeaturesCommand command)
+        public async Task<CreateCategoryFeaturesResponse> CreateFeature(CreateCategoryFeaturesCommand command)
         {
             return await _mediator.Send(command);
         }

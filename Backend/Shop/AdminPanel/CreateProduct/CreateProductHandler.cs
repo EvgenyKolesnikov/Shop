@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Shop.AdminPanel.Commands;
 using Shop.Database;
 using Shop.Model;
@@ -17,6 +18,8 @@ namespace Shop.AdminPanel.Handlers
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var category = _shopDbContext.Categories.Find(request.CategoryId);
+
+            var a = _shopDbContext.Categories.Include(i => i.Features);
             if (category == null) throw new Exception($"Category with id={request.CategoryId} not finded");
             var product = new Product
             {

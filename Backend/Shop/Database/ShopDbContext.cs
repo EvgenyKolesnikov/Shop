@@ -9,10 +9,10 @@ namespace Shop.Database
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options)
         {
            // Database.EnsureDeleted();
-            Database.EnsureCreated();
+          //  Database.EnsureCreated();
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } 
         public DbSet<Feature> Features { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<FeatureValue> FeatureValues { get; set; }
