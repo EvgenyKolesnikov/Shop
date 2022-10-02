@@ -5,7 +5,6 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-
     public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand,int>
     {
         private readonly ShopDbContext _shopDbContext;
@@ -22,7 +21,6 @@ namespace Shop.AdminPanel.Handlers
                 Name = command.Name,
                 ParentCategoryId = command.ParentCategoryId
             };
-
 
             await _shopDbContext.Categories.AddAsync(category);
             await _shopDbContext.SaveChangesAsync();

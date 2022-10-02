@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateCategoryFeatures;
-using Shop.Database;
-using Shop.Model;
 
 namespace Shop.Controllers
 {
@@ -19,7 +17,6 @@ namespace Shop.Controllers
         }
 
 
-
         [HttpPost("CreateCategory")]
         public async Task<int> CreateCategory(CreateCategoryCommand command)
         {
@@ -27,7 +24,19 @@ namespace Shop.Controllers
         }
 
         [HttpPost("CreateCategoryFeatures")]
-        public async Task<int> CreateFeature(CreateCategoryFeaturesCommand command)
+        public async Task<CreateCategoryFeaturesResponse> CreateFeature(CreateCategoryFeaturesCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpPost("LinkFeatureWithCategoryCommand")]
+        public async Task LinkFeature(LinkFeatureWithCategoryCommand command)
+        {
+            await _mediator.Send(command);
+        }
+
+        [HttpPost("CreateProduct")]
+        public async Task<int> CreateProduct(CreateProductCommand command)
         {
             return await _mediator.Send(command);
         }

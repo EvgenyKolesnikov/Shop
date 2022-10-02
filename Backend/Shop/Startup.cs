@@ -30,7 +30,7 @@ namespace Shop
             AddDbContext(services);
 
 
-            services.AddTransient<IProductRepository<Product>, ProductRepository>();
+            services.AddTransient<IProductRepository<Product>, MockProductRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,7 +58,9 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+           // options.UseSqlite($"Filename=D:\\ShopDb.db")
+            .UseLazyLoadingProxies());
         }
     }
 }

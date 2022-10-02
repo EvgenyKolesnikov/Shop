@@ -4,14 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shop.Model
 {
-    public class Category
+    public class Category : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public string? Name { get; set; }
         public int? ParentCategoryId { get; set; }
-
-        public List<Feature>? Features { get; set; }
+        public virtual Category? ParentCategory { get; set; }
+        public virtual List<Feature> Features { get; set; } = new List<Feature>();
+        public virtual List<Product> Products { get; set; } = new List<Product>();
     }
 }
