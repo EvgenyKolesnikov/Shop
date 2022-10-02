@@ -19,7 +19,6 @@ namespace Shop.AdminPanel.Handlers
         {
             var category = _shopDbContext.Categories.Find(request.CategoryId);
 
-            var a = _shopDbContext.Categories.Include(i => i.Features);
             if (category == null) throw new Exception($"Category with id={request.CategoryId} not finded");
             var product = new Product
             {
