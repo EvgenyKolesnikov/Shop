@@ -4,6 +4,7 @@ using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
 
+
 namespace Shop
 {
     public class Startup
@@ -20,7 +21,7 @@ namespace Shop
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddLogging();
             services.AddSwaggerGen();
             services.AddControllers();
@@ -30,7 +31,7 @@ namespace Shop
             AddDbContext(services);
 
 
-            services.AddTransient<IProductRepository<Product>, MockProductRepository>();
+            services.AddTransient<IProductRepository<Product>, ProductRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

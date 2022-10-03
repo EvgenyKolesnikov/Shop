@@ -2,6 +2,7 @@
 using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
+using Shop.Repository.Response;
 
 namespace Shop.Controllers
 {
@@ -10,42 +11,54 @@ namespace Shop.Controllers
     public class ShopController : ControllerBase
     {
         IProductRepository<Product> _productRepository;
-        ShopDbContext _shopDbContext;
 
         public ShopController(IProductRepository<Product> productRepository, ShopDbContext shopDbContext)
         {
             _productRepository = productRepository;
-            _shopDbContext = shopDbContext;
-        }
-
-        [HttpPost("CreateProduct")]
-        public void CreateProduct(Product product)
-        {
-            _productRepository.Create(product);
         }
 
         [HttpGet("GetProducts")]
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductResponseDTO> GetProducts()
         {
-            return _productRepository.GetList();
+            var products = _productRepository.GetList().ToList();
+
+            var response = new List<ProductResponseDTO>();
+
+            products.ForEach(product => response.Add(new ProductResponseDTO(product)));
+
+            return response;
         }
 
         [HttpGet("GetProductById")]
-        public Product GetProductById(int Id)
+        public ProductResponseDTO GetProductById(int Id)
         {
-            return _productRepository.GetById(Id);
+            var product = _productRepository.GetById(Id);
+
+            var response = new ProductResponseDTO(product);
+
+            return response;
         }
 
-        [HttpPut("UpdateProduct")]
-        public void UpdateProduct(Product product)
+        [HttpGet("GetFeatures")]
+        public IEnumerable<Feature> GetFeatures()
         {
-            _productRepository.Update(product);
+            var response = _productRepository.GetFeatures();
+
+            return response;
         }
 
-        [HttpDelete("DeleteProduct")]
-        public void DeleteProduct(Product product)
+        [HttpGet("GetCategories")]
+        public IEnumerable<CategoryResponseDTO> GetCategories()
         {
-            _productRepository.Delete(product);
+            var categories = _productRepository.GetCategories().ToList();
+
+            var response = new List<CategoryResponseDTO>();
+
+            categories.ForEach(category => response.Add(new CategoryResponseDTO(category)));
+
+            return response;
         }
+
+      
     }
 }

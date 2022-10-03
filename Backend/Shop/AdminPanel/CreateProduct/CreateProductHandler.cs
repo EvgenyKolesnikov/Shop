@@ -6,7 +6,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, string>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -15,11 +15,14 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var category = _shopDbContext.Categories.Find(request.CategoryId);
 
-            if (category == null) throw new Exception($"Category with id={request.CategoryId} not finded");
+            if (category == null)
+            {
+                return $"Category with id = {request.CategoryId} not finded";
+            };
             var product = new Product
             {
                 Name = request.Name,
@@ -39,7 +42,7 @@ namespace Shop.AdminPanel.Handlers
             }
             await _shopDbContext.Products.AddAsync(product);
             await _shopDbContext.SaveChangesAsync();
-            return product.Id;
+            return $"'{product.Name}' was added";
         }
     }
 }

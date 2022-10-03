@@ -26,7 +26,7 @@ namespace Shop.AdminPanel.Handlers
                 return response;
             }
 
-            var existFeature = _shopDbContext.Features.FirstOrDefault(i => i.Name == command.Name);
+            var existFeature = _shopDbContext.Features.FirstOrDefault(i => i.Name.ToLower() == command.Name.ToLower());
 
             if(existFeature != null)
             {

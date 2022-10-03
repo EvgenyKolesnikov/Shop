@@ -1,4 +1,5 @@
 ﻿using Shop.Model;
+using Shop.Repository.Response;
 
 namespace Shop.Repository
 {
@@ -6,8 +7,10 @@ namespace Shop.Repository
     {
         IEnumerable<Product> GetList();
         T GetById(int Id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(T item);
+        IEnumerable<Feature> GetFeatures();
+        IEnumerable<Category> GetCategories();
+        // void Create(T item);
+        // void Update(T item);
+        // void Delete(T item);
     }
 }

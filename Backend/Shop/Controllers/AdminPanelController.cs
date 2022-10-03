@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateCategoryFeatures;
+using Shop.AdminPanel.DeleteCategory;
+using Shop.AdminPanel.DeleteFeature;
+using Shop.AdminPanel.DeleteProduct;
 
 namespace Shop.Controllers
 {
@@ -16,9 +19,8 @@ namespace Shop.Controllers
             _mediator = mediator;
         }
 
-
         [HttpPost("CreateCategory")]
-        public async Task<int> CreateCategory(CreateCategoryCommand command)
+        public async Task<string> CreateCategory(CreateCategoryCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -36,7 +38,25 @@ namespace Shop.Controllers
         }
 
         [HttpPost("CreateProduct")]
-        public async Task<int> CreateProduct(CreateProductCommand command)
+        public async Task<string> CreateProduct(CreateProductCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpDelete("DeleteProduct")]
+        public async Task<string> DeleteProduct(DeleteProductCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpDelete("DeleteCategory")]
+        public async Task<string> DeleteCategory(DeleteCategoryCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpDelete("DeleteFeature")]
+        public async Task<string> DeleteFeature(DeleteFeatureCommand command)
         {
             return await _mediator.Send(command);
         }

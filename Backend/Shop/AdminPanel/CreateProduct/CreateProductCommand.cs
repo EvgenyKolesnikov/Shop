@@ -2,7 +2,7 @@
 
 namespace Shop.AdminPanel.Commands
 {
-    public class CreateProductCommand : IRequest<int>
+    public class CreateProductCommand : IRequest<string>
     {
         public string? Name { get; set; }
         public int CategoryId { get; set; }
