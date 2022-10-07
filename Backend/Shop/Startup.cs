@@ -60,7 +60,7 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-            var ServerConnection = "workstation id=ShopyDb.mssql.somee.com;packet size=4096;user id=evgklns_SQLLogin_1;pwd=3p8nqpu79w;data source=ShopyDb.mssql.somee.com;persist security info=False;initial catalog=ShopyDb ";
+          
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
            // options.UseSqlite($"Filename=D:\\ShopDb.db")

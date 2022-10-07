@@ -14,7 +14,7 @@ function App() {
   }
 
   
-  let products = axios.get(`https://localhost:7222/Shop/GetProducts`).then(res =>{
+  let products = axios.get(`http://shopyshop.somee.com/Shop/GetProducts`).then(res =>{
     this.setState({products: res.data})
   })
  
