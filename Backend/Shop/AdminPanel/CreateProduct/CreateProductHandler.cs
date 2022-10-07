@@ -15,34 +15,41 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var category = _shopDbContext.Categories.Find(request.CategoryId);
+            var result = "";
 
-            if (category == null)
-            {
-                return $"Category with id = {request.CategoryId} not finded";
-            };
+            var category = _shopDbContext.Categories.Find(command.CategoryId);
+
             var product = new Product
             {
-                Name = request.Name,
+                Name = command.Name,
                 Category = category,
-                Info = request.Info,
-                Price = request.Price,
-                Rating = request.Rating,
+                Info = command.Info,
+                Price = command.Price,
+                Rating = command.Rating,
             };
-            foreach (var feature in category.Features) 
+            if (category != null)
             {
-                var value = new FeatureValue
+                foreach (var feature in category.Features)
                 {
-                    Feature = feature,
-                    Product = product,
-                };
-                product.Features.Add(value);
+                    var value = new FeatureValue
+                    {
+                        Feature = feature,
+                        Product = product,
+                    };
+                    product.Features.Add(value);
+                }
             }
+            else
+            {
+                result += $"Category with id = {command.CategoryId} not finded \n";
+            }
+            
             await _shopDbContext.Products.AddAsync(product);
             await _shopDbContext.SaveChangesAsync();
-            return $"'{product.Name}' was added";
+            result += $"'{product.Name}' was added";
+            return result;
         }
     }
 }

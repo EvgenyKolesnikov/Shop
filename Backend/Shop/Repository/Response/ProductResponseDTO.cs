@@ -5,13 +5,13 @@ namespace Shop.Repository.Response
     public class ProductResponseDTO
     {
         public string? Name { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
   
         public virtual List<FeatureResponseDTO> Features { get; set; }
         public string? Info { get; set; }
-        public float Price { get; set; }
-        public string? Rating { get; set; }
+        public float? Price { get; set; }
+        public int? Rating { get; set; }
 
 
         public ProductResponseDTO(Product product)

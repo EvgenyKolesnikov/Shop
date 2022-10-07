@@ -5,6 +5,7 @@ using Shop.AdminPanel.CreateCategoryFeatures;
 using Shop.AdminPanel.DeleteCategory;
 using Shop.AdminPanel.DeleteFeature;
 using Shop.AdminPanel.DeleteProduct;
+using Shop.AdminPanel.EditProduct;
 
 namespace Shop.Controllers
 {
@@ -31,15 +32,11 @@ namespace Shop.Controllers
             return await _mediator.Send(command);
         }
 
-        [HttpPost("LinkFeatureWithCategoryCommand")]
-        public async Task LinkFeature(LinkFeatureWithCategoryCommand command)
-        {
-            await _mediator.Send(command);
-        }
 
         [HttpPost("CreateProduct")]
         public async Task<string> CreateProduct(CreateProductCommand command)
         {
+           
             return await _mediator.Send(command);
         }
 
@@ -57,6 +54,12 @@ namespace Shop.Controllers
 
         [HttpDelete("DeleteFeature")]
         public async Task<string> DeleteFeature(DeleteFeatureCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpPut("EditProduct")]
+        public async Task<string> EditProduct(EditProductCommand command)
         {
             return await _mediator.Send(command);
         }

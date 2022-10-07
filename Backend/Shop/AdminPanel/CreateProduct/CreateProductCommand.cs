@@ -8,6 +8,6 @@ namespace Shop.AdminPanel.Commands
         public int CategoryId { get; set; }
         public string? Info { get; set; }
         public float Price { get; set; }
-        public string? Rating { get; set; }
+        public int? Rating { get; set; }
     }
 }
