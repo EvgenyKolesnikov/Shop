@@ -44,7 +44,8 @@ namespace Shop
             app.UseCors(builder =>
             {
                 builder.AllowAnyOrigin();
-              //  builder.SetIsOriginAllowed(_ => true);
+               // builder.SetIsOriginAllowed(_ => true);
+                builder.AllowAnyHeader();
             });
 
             app.UseEndpoints(endpoints =>
