@@ -20,11 +20,32 @@ namespace Shop.AdminPanel.DeleteCategory
 
             if (category != null)
             {
-                _shopDbContext.Categories.Remove(category);
-                await _shopDbContext.SaveChangesAsync();
+                try
+                {
+                    var childrenCategories = _shopDbContext.Categories.Where(c => c.ParentCategoryId == category.Id).ToList();
+
+                    foreach(var childCategory in childrenCategories)
+                    {
+                        childCategory.ParentCategory = null;
+                    }
 
 
-                return $"Category '{category.Name}' was removed";
+                    _shopDbContext.SaveChanges();
+
+
+
+                    _shopDbContext.Categories.Remove(category);
+                    _shopDbContext.SaveChanges();
+                    return $"Category '{category.Name}' was removed";
+                }
+                catch (Exception ex)
+                {
+                    return $"Category '{category.Name}' was removed";
+                }
+
+
+                
+
             }
             else
             {

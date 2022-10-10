@@ -21,9 +21,6 @@ namespace Shop.Controllers
         [HttpGet("GetProducts")]
         public IEnumerable<ProductResponseDTO> GetProducts()
         {
-            var a = 3;
-
-            Debug.Assert(a == 3);
             var products = _productRepository.GetList().ToList();
 
             var response = new List<ProductResponseDTO>();

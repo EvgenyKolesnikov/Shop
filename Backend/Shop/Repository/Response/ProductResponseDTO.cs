@@ -4,6 +4,7 @@ namespace Shop.Repository.Response
 {
     public class ProductResponseDTO
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
         public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
@@ -16,16 +17,17 @@ namespace Shop.Repository.Response
 
         public ProductResponseDTO(Product product)
         {
+            Id = product.Id;
             Name = product.Name;
             CategoryId = product.CategoryId;
-            CategoryName = product.Category.Name;
+            CategoryName = product.Category?.Name ;
             Info = product.Info;
             Price = product.Price;
             Rating = product.Rating;
 
             Features = product.Features.Select(f => new FeatureResponseDTO()
             {
-                Name = f.Feature.Name,
+                Name = f.Feature?.Name,
                 Value = f.Value
             }).ToList();
         }

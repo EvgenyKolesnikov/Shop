@@ -16,14 +16,20 @@ namespace Shop.AdminPanel.Handlers
 
         public async Task<string> Handle(CreateCategoryCommand command,CancellationToken cancellationToken)
         {
-            var category = new Category()
-            {
-                Name = command.Name,
-                ParentCategoryId = command.ParentCategoryId
-            };
+            var ParentCategory = _shopDbContext.Categories.Find(command.ParentCategoryId); 
+
+                var category = new Category()
+                {
+                    Name = command.Name,
+                    ParentCategoryId = command.ParentCategoryId == 0 ? null : command.ParentCategoryId
+                };
+
+           
+
 
             await _shopDbContext.Categories.AddAsync(category);
             await _shopDbContext.SaveChangesAsync();
+
 
             return $"'{category.Name}' was added";
         }

@@ -19,7 +19,7 @@ namespace Shop.AdminPanel.DeleteProduct
             if (product != null)
             {
                 _shopDbContext.Products.Remove(product);
-                await _shopDbContext.SaveChangesAsync();
+                _shopDbContext.SaveChanges();
 
 
                 return $"Product '{product.Name}' was removed";

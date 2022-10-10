@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateCategoryFeatures;
@@ -36,26 +37,39 @@ namespace Shop.Controllers
         [HttpPost("CreateProduct")]
         public async Task<string> CreateProduct(CreateProductCommand command)
         {
-           
             return await _mediator.Send(command);
         }
 
-        [HttpDelete("DeleteProduct")]
-        public async Task<string> DeleteProduct(DeleteProductCommand command)
+        [HttpDelete("DeleteProduct/{id}")]
+        public async Task<string> DeleteProduct([FromRoute] int id)
         {
+            var command = new DeleteProductCommand()
+            {
+                Id = id
+            };
             return await _mediator.Send(command);
         }
 
-        [HttpDelete("DeleteCategory")]
-        public async Task<string> DeleteCategory(DeleteCategoryCommand command)
+      
+        [HttpDelete("DeleteCategory/{id}")]
+        public  Task<string> DeleteCategory([FromRoute]int id)
         {
-            return await _mediator.Send(command);
+            var command = new DeleteCategoryCommand()
+            {
+                Id = id
+            };
+
+            return  _mediator.Send(command);
         }
 
-        [HttpDelete("DeleteFeature")]
-        public async Task<string> DeleteFeature(DeleteFeatureCommand command)
+        [HttpDelete("DeleteFeature/{id}")]
+        public Task<string> DeleteFeature([FromRoute] int id)
         {
-            return await _mediator.Send(command);
+            var command = new DeleteFeatureCommand()
+            {
+                Id = id
+            };
+            return _mediator.Send(command);
         }
 
         [HttpPut("EditProduct")]

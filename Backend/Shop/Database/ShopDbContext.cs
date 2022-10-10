@@ -20,8 +20,15 @@ namespace Shop.Database
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //}
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{            
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+           modelBuilder.Entity<Category>()
+                .HasMany(p => p.Products)
+                .WithOne(p => p.Category)
+                .OnDelete(DeleteBehavior.SetNull);
+   
+
+        }
     }
 }

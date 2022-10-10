@@ -32,6 +32,15 @@ namespace Shop
 
 
             services.AddTransient<IProductRepository<Product>, ProductRepository>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,12 +49,15 @@ namespace Shop
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
-           // app.UseAuthorization();
+            //app.UseCors();
+            // app.UseAuthorization();
             app.UseCors(builder =>
             {
-                builder.AllowAnyOrigin();
-               // builder.SetIsOriginAllowed(_ => true);
+
                 builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+
             });
 
             app.UseEndpoints(endpoints =>
@@ -61,7 +73,7 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-          
+            
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
            // options.UseSqlite($"Filename=D:\\ShopDb.db")
