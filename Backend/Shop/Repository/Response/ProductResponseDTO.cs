@@ -12,7 +12,7 @@ namespace Shop.Repository.Response
         public virtual List<FeatureResponseDTO> Features { get; set; }
         public string? Info { get; set; }
         public float? Price { get; set; }
-        public int? Rating { get; set; }
+        public float? Rating { get; set; }
 
 
         public ProductResponseDTO(Product product)

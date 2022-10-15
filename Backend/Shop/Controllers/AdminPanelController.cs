@@ -7,6 +7,8 @@ using Shop.AdminPanel.DeleteCategory;
 using Shop.AdminPanel.DeleteFeature;
 using Shop.AdminPanel.DeleteProduct;
 using Shop.AdminPanel.EditProduct;
+using Shop.AdminPanel.SeedDatabase;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Shop.Controllers
 {
@@ -22,7 +24,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost("CreateCategory")]
-        public async Task<string> CreateCategory(CreateCategoryCommand command)
+        public async Task<int> CreateCategory(CreateCategoryCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -35,7 +37,7 @@ namespace Shop.Controllers
 
 
         [HttpPost("CreateProduct")]
-        public async Task<string> CreateProduct(CreateProductCommand command)
+        public async Task<int> CreateProduct(CreateProductCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -72,9 +74,30 @@ namespace Shop.Controllers
             return _mediator.Send(command);
         }
 
+
+        /// <summary>
+        /// Редактирование продукта
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+    
         [HttpPut("EditProduct")]
         public async Task<string> EditProduct(EditProductCommand command)
         {
+            return await _mediator.Send(command);
+        }
+
+
+        /// <summary>
+        ///  Сброс данных
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("SeedDatabase")]
+        public async Task<string> SeedDatabase()
+        {
+
+            var command = new SeedDatabaseCommand();
+
             return await _mediator.Send(command);
         }
     }

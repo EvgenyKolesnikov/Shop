@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Shop.AdminPanel.GetCategoryFeatures;
 using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
@@ -12,10 +14,12 @@ namespace Shop.Controllers
     public class ShopController : ControllerBase
     {
         IProductRepository<Product> _productRepository;
+        private readonly IMediator _mediator;
 
-        public ShopController(IProductRepository<Product> productRepository, ShopDbContext shopDbContext)
+        public ShopController(IProductRepository<Product> productRepository, ShopDbContext shopDbContext, IMediator mediator)
         {
             _productRepository = productRepository;
+            _mediator = mediator;
         }
 
         [HttpGet("GetProducts")]
@@ -60,6 +64,18 @@ namespace Shop.Controllers
             return response;
         }
 
-      
+        [HttpGet("GetFeaturesByCategory/{id}")]
+        public async Task<IEnumerable<Feature>> GetFeaturesByCategory([FromRoute] int id)
+        {
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            cancelTokenSource.CancelAfter(4000);
+
+
+            var command = new GetCategoryFeaturesQuery() { Id = id };
+            var response = await _mediator.Send(command, token);
+
+            return response;
+        }
     }
 }

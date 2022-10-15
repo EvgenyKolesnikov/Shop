@@ -15,6 +15,8 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
+        // ToDo: рефакторинг
+
         public async Task<CreateCategoryFeaturesResponse> Handle(CreateCategoryFeaturesCommand command, CancellationToken cancellationToken)
         {
             var response = new CreateCategoryFeaturesResponse();
@@ -44,6 +46,7 @@ namespace Shop.AdminPanel.Handlers
                     existFeature.Categories.Add(category);
                     await _shopDbContext.SaveChangesAsync();
 
+                    response.Id = existFeature.Id;
                     response.result = "Feature was linked with current category";
                     return response;
                 }
@@ -59,7 +62,7 @@ namespace Shop.AdminPanel.Handlers
                 await _shopDbContext.AddAsync(feature);
                 await _shopDbContext.SaveChangesAsync();
 
-
+                response.Id = feature.Id;
                 response.result = "New feature has been added";
                 return response;
             }

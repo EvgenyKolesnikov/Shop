@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
 
 namespace Shop.AdminPanel.EditProduct
 {
@@ -9,10 +11,13 @@ namespace Shop.AdminPanel.EditProduct
         public int? CategoryId { get; set; } 
 
         public string? Info { get; set; }
-
         public float? Price { get; set; }
 
         public int? Rating { get; set; }
+
+
+        /// <example>{"FeatureId":1,"FeatureValue":"Red Color"} </example>
+        public Dictionary<int,string> FeatureValue { get; set; }
 
     }
 }

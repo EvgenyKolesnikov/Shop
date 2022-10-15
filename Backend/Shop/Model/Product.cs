@@ -18,6 +18,6 @@ namespace Shop.Model
         public virtual List<FeatureValue> Features { get; set; } = new List<FeatureValue>();
         public string? Info { get; set; }
         public float? Price { get; set; }
-        public int? Rating { get; set; }
+        public float? Rating { get; set; }
     }
 }

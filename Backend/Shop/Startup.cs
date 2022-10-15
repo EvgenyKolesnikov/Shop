@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
-
+using System.Reflection;
 
 namespace Shop
 {
@@ -23,7 +23,11 @@ namespace Shop
         {
             services.AddMvc().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddLogging();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options => {
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddMediatR(typeof(Startup));
@@ -73,7 +77,7 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-            
+            var serverconnection = "workstation id=ShopyDb.mssql.somee.com;packet size=4096;user id=evgklns_SQLLogin_1;pwd=3p8nqpu79w;data source=ShopyDb.mssql.somee.com;persist security info=False;initial catalog=ShopyDb ";
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
            // options.UseSqlite($"Filename=D:\\ShopDb.db")
