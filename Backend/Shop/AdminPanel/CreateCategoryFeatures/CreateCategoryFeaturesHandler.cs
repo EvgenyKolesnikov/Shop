@@ -15,28 +15,29 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        // ToDo: рефакторинг
-
         public async Task<CreateCategoryFeaturesResponse> Handle(CreateCategoryFeaturesCommand command, CancellationToken cancellationToken)
         {
             var response = new CreateCategoryFeaturesResponse();
-            var category = _shopDbContext.Categories.Find(command.CategoryId);
 
+
+            // Ищем категорию
+            var category = _shopDbContext.Categories.Find(command.CategoryId);
             if (category == null)
             {
                 response.result = "Category not found";
                 return response;
             }
 
+            //Ищем фичу в списке
             var existFeature = _shopDbContext.Features.FirstOrDefault(i => i.Name.ToLower() == command.Name.ToLower());
 
             if(existFeature != null)
             {
-                await _shopDbContext.Entry(existFeature).Collection(x => x.Categories).LoadAsync();
                 var existCategory = existFeature.Categories.FirstOrDefault(i => i.Id == command.CategoryId);
 
                 if (existCategory != null)
                 {
+                    response.Id = existCategory.Id;
                     response.result = "Feature already exist in current category";
                     return response;
                 }

@@ -36,25 +36,12 @@ namespace Shop.AdminPanel.EditProduct
             if (command.CategoryId != null)
             {
                 var category = _shopDbContext.Categories.Find(command.CategoryId);
-                if (category != null)
+              
+                if (category != null && category != product.Category)
                 {
-
                     product.Category = category;
-                    product.CategoryId = command.CategoryId;
-
-
-                    // перезаписывание фичей
-                    product.Features.RemoveAll(i => product.Features.Contains(i));
-                    foreach (var feature in category.Features)
-                    {
-                        var value = new FeatureValue
-                        {
-                            Feature = feature,
-                            Product = product,
-                        };
-                        product.Features.Add(value);
-                    }
-
+       
+                    product.Features.RemoveAll(i => product.Features.Contains(i));   
                     result += "Category has been changed \n";
                 }
                 else
@@ -65,39 +52,25 @@ namespace Shop.AdminPanel.EditProduct
             
             foreach (var feature in features ?? new List<Feature>())
             {
-                var item = product.Features.FirstOrDefault(i => i.FeatureId == feature.Id);
+                var existFeature = product.Features.FirstOrDefault(i => i.FeatureId == feature.Id);
+                var value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id);
 
                 //add feature
-                if (item == null)
+                if (existFeature == null)
                 {
                     var featureitem = new FeatureValue()
                     {
                         Feature = feature,
                         Product = product,
-                        
+                        Value = value.Value
                     };
-                    foreach (var i in command.FeatureValue)
-                    {
-                        if (i.Key.Equals(feature.Id))
-                        {
-                            featureitem.Value = i.Value;
-                        }
-                    }
-
                     await _shopDbContext.AddAsync(featureitem);
                 }
                 else
                 {
-                    foreach (var i in command.FeatureValue)
-                    {
-                        if (i.Key.Equals(item.FeatureId))
-                        {
-                            item.Value = i.Value;
-                        }
-                    }
+                    existFeature.Value = value.Value;
                 }
             }
-
 
             await _shopDbContext.SaveChangesAsync();
 
