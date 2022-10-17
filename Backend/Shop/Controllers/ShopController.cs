@@ -52,6 +52,18 @@ namespace Shop.Controllers
             return response;
         }
 
+        [HttpGet("GetCategoriesTree")]
+        public IEnumerable<CategoryResponseTreeDTO> GetCategoriesTree()
+        {
+            var categories = _productRepository.GetCategoriesTree().ToList();
+
+            var response = new List<CategoryResponseTreeDTO>();
+
+            categories.ForEach(category => response.Add(new CategoryResponseTreeDTO(category)));
+
+            return response;
+        }
+
         [HttpGet("GetCategories")]
         public IEnumerable<CategoryResponseDTO> GetCategories()
         {
@@ -63,6 +75,10 @@ namespace Shop.Controllers
 
             return response;
         }
+
+
+
+
 
         [HttpGet("GetFeaturesByCategory/{id}")]
         public async Task<IEnumerable<Feature>> GetFeaturesByCategory([FromRoute] int id)

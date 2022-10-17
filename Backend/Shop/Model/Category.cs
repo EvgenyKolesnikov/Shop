@@ -11,7 +11,7 @@ namespace Shop.Model
         public int? ParentCategoryId { get; set; }
         public virtual Category? ParentCategory { get; set; }
 
-        public virtual List<Category> ChildCategories { get; set; } = new List<Category>();
+        public virtual List<Category> ChildCategories { get; set; } 
    
         public virtual List<Feature> Features { get; set; } = new List<Feature>();
 

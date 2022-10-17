@@ -35,12 +35,20 @@ namespace Shop.Repository
             return features;
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Category> GetCategoriesTree()
         {
 
             var categories = _shopDbContext.Categories.Where(c => c.ParentCategoryId == null).AsParallel().ToList();
             
             return categories; 
+        }
+
+        public IEnumerable<Category> GetCategories()
+        {
+
+            var categories = _shopDbContext.Categories.ToList();
+
+            return categories;
         }
     }
 }
