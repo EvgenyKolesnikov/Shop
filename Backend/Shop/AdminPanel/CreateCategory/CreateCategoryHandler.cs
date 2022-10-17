@@ -19,9 +19,8 @@ namespace Shop.AdminPanel.Handlers
             var category = new Category()
             {
                 Name = command.Name,
-                ParentCategoryId = command.ParentCategoryId == 0 ? null : command.ParentCategoryId
+                ParentCategoryId = command.ParentCategoryId == 0 ? null : command.ParentCategoryId,
             };
-
             await _shopDbContext.Categories.AddAsync(category);
             await _shopDbContext.SaveChangesAsync();
 

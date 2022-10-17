@@ -6,6 +6,7 @@ using Shop.AdminPanel.CreateCategoryFeatures;
 using Shop.AdminPanel.DeleteCategory;
 using Shop.AdminPanel.DeleteFeature;
 using Shop.AdminPanel.DeleteProduct;
+using Shop.AdminPanel.EditCategory;
 using Shop.AdminPanel.EditProduct;
 using Shop.AdminPanel.SeedDatabase;
 using Swashbuckle.AspNetCore.Annotations;
@@ -83,6 +84,12 @@ namespace Shop.Controllers
     
         [HttpPut("EditProduct")]
         public async Task<string> EditProduct(EditProductCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpPut("EditCategory")]
+        public async Task<int> EditCategoryCommand(EditCategoryCommand command)
         {
             return await _mediator.Send(command);
         }

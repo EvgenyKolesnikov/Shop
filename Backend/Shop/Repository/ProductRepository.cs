@@ -1,4 +1,5 @@
-﻿using Shop.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Shop.Database;
 using Shop.Model;
 using Shop.Repository.Response;
 
@@ -14,7 +15,7 @@ namespace Shop.Repository
 
         public IEnumerable<Product> GetList()
         {
-            var products = _shopDbContext.Products.ToList();
+            var products = _shopDbContext.Products;
 
             return products;
         }
@@ -36,7 +37,8 @@ namespace Shop.Repository
 
         public IEnumerable<Category> GetCategories()
         {
-            var categories = _shopDbContext.Categories.ToList();
+
+            var categories = _shopDbContext.Categories.Where(c => c.ParentCategoryId == null).AsParallel().ToList();
             
             return categories; 
         }

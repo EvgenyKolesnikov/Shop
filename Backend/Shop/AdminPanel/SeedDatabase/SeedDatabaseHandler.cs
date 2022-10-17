@@ -21,8 +21,10 @@ namespace Shop.AdminPanel.SeedDatabase
             var Categories = _shopDbContext.Categories;
             var Products = _shopDbContext.Products;
             var Features = _shopDbContext.Features;
+          //  var CategoriesChild = _shopDbContext.CategoryChilds;
 
             _shopDbContext.RemoveRange(Categories);
+         //  _shopDbContext.RemoveRange(CategoriesChild);
             _shopDbContext.RemoveRange(Products);
             _shopDbContext.RemoveRange(Features);
             _shopDbContext.SaveChanges();
@@ -79,7 +81,7 @@ namespace Shop.AdminPanel.SeedDatabase
 
 
 
-            return "f";
+            return "Success";
         }
     }
 }
