@@ -15,7 +15,7 @@ namespace Shop.Repository
 
         public IEnumerable<Product> GetList()
         {
-            var products = _shopDbContext.Products;
+            var products = _shopDbContext.Products.ToList();
 
             return products;
         }
@@ -37,7 +37,6 @@ namespace Shop.Repository
 
         public IEnumerable<Category> GetCategoriesTree()
         {
-
             var categories = _shopDbContext.Categories.Where(c => c.ParentCategoryId == null).AsParallel().ToList();
             
             return categories; 

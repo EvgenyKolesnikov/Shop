@@ -29,10 +29,7 @@ namespace Shop.AdminPanel.DeleteCategory
                         childCategory.ParentCategory = null;
                     }
 
-
                     _shopDbContext.SaveChanges();
-
-
 
                     _shopDbContext.Categories.Remove(category);
                     _shopDbContext.SaveChanges();
@@ -42,10 +39,6 @@ namespace Shop.AdminPanel.DeleteCategory
                 {
                     return $"Category '{category.Name}' was removed";
                 }
-
-
-                
-
             }
             else
             {

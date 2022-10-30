@@ -61,12 +61,46 @@ namespace Shop.AdminPanel.Handlers
                 feature.Categories.Add(category);
 
                 await _shopDbContext.AddAsync(feature);
+                
+
+                var categories = GetAllChildsCategories(category); 
+
+                var products = _shopDbContext.Products.Where(i => categories.Contains(i.Category)).ToList();
+
+                foreach (var product in products)
+                {
+                    var featureitem = new FeatureValue()
+                    {
+                        Feature = feature,
+                        Product = product,
+                        Value = null
+                    };
+                    await _shopDbContext.AddAsync(featureitem);
+                }
                 await _shopDbContext.SaveChangesAsync();
+
+
 
                 response.Id = feature.Id;
                 response.result = "New feature has been added";
                 return response;
             }
+        }
+
+        private List<Category> GetAllChildsCategories(Category category)
+        {
+            var result = new List<Category>();
+            result.Add(category);
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                foreach (var a in result[i].ChildCategories ?? new List<Category>())
+                {
+                    result.Add(a);
+                }
+            };
+
+            return result;
         }
     }
 }

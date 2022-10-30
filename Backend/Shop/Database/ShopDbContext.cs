@@ -16,7 +16,6 @@ namespace Shop.Database
         public DbSet<Feature> Features { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<FeatureValue> FeatureValues { get; set; }
-       // public DbSet<CategoryChilds> CategoryChilds { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -37,11 +36,7 @@ namespace Shop.Database
                 category.HasOne(c => c.ParentCategory)
                 .WithMany(c => c.ChildCategories)
                 .HasForeignKey(c => c.ParentCategoryId);
-
-
             });
-                  
-
         }
     }
 }

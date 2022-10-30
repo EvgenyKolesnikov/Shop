@@ -19,6 +19,10 @@ namespace Shop.AdminPanel.Handlers
         {
             var category = _shopDbContext.Categories.Find(command.CategoryId);
 
+            var categories = GetParents(category);
+            var features = GetAllFeatures(categories);
+
+
             var product = new Product
             {
                 Name = command.Name,
@@ -29,7 +33,7 @@ namespace Shop.AdminPanel.Handlers
             };
             if (category != null)
             {
-                foreach (var feature in category.Features)
+                foreach (var feature in features)
                 {
                     var value = new FeatureValue
                     {
@@ -44,6 +48,35 @@ namespace Shop.AdminPanel.Handlers
             await _shopDbContext.SaveChangesAsync();
 
             return product.Id;
+        }
+
+        private List<Category> GetParents(Category category)
+        {
+            var result = new List<Category>();
+            
+            result.Add(category);
+
+            var ParentCategory = category.ParentCategory;
+            while (ParentCategory != null)
+            {
+                result.Add(ParentCategory);
+                ParentCategory = ParentCategory.ParentCategory;
+            }
+        
+
+            return result;
+        }
+
+        private List<Feature> GetAllFeatures(List<Category> categories)
+        {
+            var result = new List<Feature>();
+
+            foreach(var category in categories)
+            {
+                result.AddRange(category.Features);
+            }
+
+            return result;
         }
     }
 }
