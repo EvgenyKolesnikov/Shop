@@ -30,7 +30,7 @@ namespace Shop.Repository
 
         public IEnumerable<Feature> GetFeatures()
         {
-            var features = _shopDbContext.Features.ToList();
+            var features = _shopDbContext.Features;
 
             return features;
         }

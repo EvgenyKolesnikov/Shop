@@ -3,7 +3,7 @@ using Shop.Model;
 
 namespace Shop.Repository.Response
 {
-    public class CategoryResponseDTO
+    public class CategoryResponseDTO : Entity
     {
         public string? Name { get; set; }
         public int CategoryId { get; set; }
@@ -12,17 +12,14 @@ namespace Shop.Repository.Response
         public Category? ParentCategory { get; set; }
 
 
-
         public virtual List<FeatureResponseDTO> Features { get; set; }
 
 
-        public CategoryResponseDTO(Category category)
+        public CategoryResponseDTO(Category category) 
         {
             Name = category.Name;
-            CategoryId = category.Id;
+            Id = category.Id;
             ParentCategoryId = category.ParentCategoryId;
-            
-            
             
             Features = category.Features.Select(f => new FeatureResponseDTO()
             {

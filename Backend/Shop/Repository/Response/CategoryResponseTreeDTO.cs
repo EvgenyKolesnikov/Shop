@@ -3,7 +3,7 @@ using Shop.Model;
 
 namespace Shop.Repository.Response
 {
-    public class CategoryResponseTreeDTO
+    public class CategoryResponseTreeDTO : Entity
     {
         public string? Name { get; set; }
         public int CategoryId { get; set; }
@@ -19,7 +19,7 @@ namespace Shop.Repository.Response
         public CategoryResponseTreeDTO(Category category)
         {
             Name = category.Name;
-            CategoryId = category.Id;
+            Id = category.Id;
             ParentCategoryId = category.ParentCategoryId;
             ParentCategory = category.ParentCategory;
             
