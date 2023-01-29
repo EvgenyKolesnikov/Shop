@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://localhost:7222'
+const baseUrl = 'http://shopyshop.somee.com'
 
 export default class ApiService {
 

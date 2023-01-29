@@ -6,7 +6,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -15,7 +15,7 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<int> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var category = _shopDbContext.Categories.Find(command.CategoryId);
 
@@ -47,7 +47,7 @@ namespace Shop.AdminPanel.Handlers
             await _shopDbContext.Products.AddAsync(product);
             await _shopDbContext.SaveChangesAsync();
 
-            return product.Id;
+            return product;
         }
 
         private List<Category> GetParents(Category category)

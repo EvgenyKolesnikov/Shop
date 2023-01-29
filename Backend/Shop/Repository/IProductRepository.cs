@@ -10,6 +10,7 @@ namespace Shop.Repository
         IEnumerable<Feature> GetFeatures();
         IEnumerable<Category> GetCategoriesTree();
         IEnumerable<Category> GetCategories();
+        IEnumerable<ProductResponseDTO> GetProductsByCategory (int categoryId);
         // void Create(T item);
         // void Update(T item);
         // void Delete(T item);

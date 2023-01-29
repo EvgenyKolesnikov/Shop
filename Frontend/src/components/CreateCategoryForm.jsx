@@ -8,7 +8,7 @@ const CreateCategoryForm = () => {
         e.preventDefault();
 
 
-        const res = await fetch("https://localhost:7222/AdminPanel/CreateCategory", {
+        const res = await fetch("http://shopyshop.somee.com/AdminPanel/CreateCategory", {
             method: 'POST',
             body: JSON.stringify({
                 name: name,

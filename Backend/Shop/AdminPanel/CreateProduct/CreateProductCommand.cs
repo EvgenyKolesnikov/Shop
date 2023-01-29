@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using Shop.Model;
 
 namespace Shop.AdminPanel.Commands
 {
-    public class CreateProductCommand : IRequest<int>
+    public class CreateProductCommand : IRequest<Product>
     {
         public string? Name { get; set; }
         public int? CategoryId { get; set; }

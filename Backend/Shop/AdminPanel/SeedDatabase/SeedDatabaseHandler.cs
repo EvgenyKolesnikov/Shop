@@ -60,7 +60,7 @@ namespace Shop.AdminPanel.SeedDatabase
                 Info = "Ноутбук Acer Aspire 3 A315-23-R5B8, 15.6 AMD Ryzen 5 3500U 2.1ГГц, 8ГБ, 1ТБ, AMD Radeon Vega 8,  Eshell, NX.HVUER.006, серебристый"
             });
 
-            await _mediator.Send(new EditProductCommand() { ProductId = product1, FeatureValue = new Dictionary<int, string>() { 
+            await _mediator.Send(new EditProductCommand() { ProductId = product1.Id, FeatureValue = new Dictionary<int, string>() { 
                 { feature1.Id, "Apple" },
                 { feature2.Id, "M1" },
                 { feature3.Id, "интегрированный" },
@@ -69,7 +69,7 @@ namespace Shop.AdminPanel.SeedDatabase
 
             await _mediator.Send(new EditProductCommand()
             {
-                ProductId = product2,FeatureValue = new Dictionary<int, string>() {
+                ProductId = product2.Id,FeatureValue = new Dictionary<int, string>() {
                 { feature1.Id, "Acer" },
                 { feature2.Id, "AMD Ryzen 5 3500U" },
                 { feature3.Id, "AMD Radeon Vega 8" },

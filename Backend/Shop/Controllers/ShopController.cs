@@ -93,5 +93,13 @@ namespace Shop.Controllers
 
             return response;
         }
+
+        [HttpGet("GetProductsByCategory/{id}")]
+        public async Task<IEnumerable<ProductResponseDTO>> GetProductsByCategoryd([FromRoute] int id)
+        {
+
+            var response = _productRepository.GetProductsByCategory(id);
+            return response;
+        }
     }
 }

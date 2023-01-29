@@ -6,7 +6,7 @@ const TableProducts = ({products}) => {
 
     const deleteProduct = (id) => {
         console.log(id)
-        axios.delete(`https://localhost:7222/AdminPanel/DeleteProduct/${id}`)
+        axios.delete(`http://shopyshop.somee.com/AdminPanel/DeleteProduct/${id}`).
         then(res => 
             console.log('Delete', res)
             ).catch(err => console.log(err));

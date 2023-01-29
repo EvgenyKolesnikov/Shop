@@ -49,5 +49,19 @@ namespace Shop.Repository
 
             return categories;
         }
+
+        public IEnumerable<ProductResponseDTO> GetProductsByCategory(int id)
+        {
+            var products = _shopDbContext.Categories.Find(id)?.Products;
+
+            List<ProductResponseDTO> result = new List<ProductResponseDTO>();
+
+            foreach (var product in products)
+            {
+                result.Add(new ProductResponseDTO(product));
+            }
+
+            return result;
+        }
     }
 }

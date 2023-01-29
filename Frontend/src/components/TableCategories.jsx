@@ -11,7 +11,7 @@ const TableCategories = ({ categories }) => {
 
    
     const deleteCategory = (id) => {
-        axios.delete(`https://localhost:7222/AdminPanel/DeleteCategory/${id}`)
+        axios.delete(`http://shopyshop.somee.com/AdminPanel/DeleteCategory/${id}`).
         then(res => 
             console.log('Delete', res)
             ).catch(err => console.log(err));

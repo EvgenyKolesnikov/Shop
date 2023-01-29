@@ -23,7 +23,7 @@ const CreateProductForm = () => {
         //     console.log(error);
         // });
 
-        const res = await fetch("https://localhost:7222/AdminPanel/CreateProduct", {
+        const res = await fetch("http://shopyshop.somee.com/AdminPanel/CreateProduct", {
             method: 'POST',
             body: JSON.stringify({
                 name,

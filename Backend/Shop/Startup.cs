@@ -77,10 +77,9 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-          
+           
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(serverconnection)
-           // options.UseSqlite($"Filename=D:\\ShopDb.db")
+            options.UseSqlServer(locaConnection)
             .UseLazyLoadingProxies());
         }
     }

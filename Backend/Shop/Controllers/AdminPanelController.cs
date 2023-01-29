@@ -9,6 +9,7 @@ using Shop.AdminPanel.DeleteProduct;
 using Shop.AdminPanel.EditCategory;
 using Shop.AdminPanel.EditProduct;
 using Shop.AdminPanel.SeedDatabase;
+using Shop.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Shop.Controllers
@@ -27,7 +28,16 @@ namespace Shop.Controllers
         [HttpPost("CreateCategory")]
         public async Task<int> CreateCategory(CreateCategoryCommand command)
         {
-            return await _mediator.Send(command);
+            var categoryId = await _mediator.Send(command);
+
+            foreach(var feature in command.Features)
+            {
+                var featureCommand = new CreateCategoryFeaturesCommand() { CategoryId = categoryId, Name = feature };
+                await _mediator.Send(featureCommand);
+            }
+
+
+            return categoryId;
         }
 
         [HttpPost("CreateCategoryFeatures")]
@@ -38,7 +48,7 @@ namespace Shop.Controllers
 
 
         [HttpPost("CreateProduct")]
-        public async Task<int> CreateProduct(CreateProductCommand command)
+        public async Task<Product> CreateProduct(CreateProductCommand command)
         {
             return await _mediator.Send(command);
         }
