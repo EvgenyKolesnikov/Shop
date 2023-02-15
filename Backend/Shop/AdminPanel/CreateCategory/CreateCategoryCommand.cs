@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using Shop.Model;
 
 namespace Shop.AdminPanel.Commands
 {
-    public class CreateCategoryCommand : IRequest<int>
+    public class CreateCategoryCommand : IRequest<Category>
     {
         public string? Name { get; set; }
         public int? ParentCategoryId { get; set; }

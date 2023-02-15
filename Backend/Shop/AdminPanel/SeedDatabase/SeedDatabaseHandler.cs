@@ -31,21 +31,21 @@ namespace Shop.AdminPanel.SeedDatabase
 
             var category1 = await _mediator.Send(new CreateCategoryCommand() { Name = "Мебель", ParentCategoryId = null });
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
-            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Телевизоры", ParentCategoryId = category2 });
-            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category2 });
-            var category5 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category4 });
-            var category6 = await _mediator.Send(new CreateCategoryCommand() { Name = "Моноблоки", ParentCategoryId = category4 });
+            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Телевизоры", ParentCategoryId = category2.Id });
+            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category2.Id });
+            var category5 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category4.Id });
+            var category6 = await _mediator.Send(new CreateCategoryCommand() { Name = "Моноблоки", ParentCategoryId = category4.Id });
 
 
-            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4, Name = "CPU" });
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4, Name = "GPU" });
-            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4, Name = "RAM" });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Бренд" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4.Id, Name = "CPU" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4.Id, Name = "GPU" });
+            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category4.Id, Name = "RAM" });
 
             var product1 = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
-                CategoryId = category5,
+                CategoryId = category5.Id,
                 Price = 150000,
                 Rating = 8.4f,
                 Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
@@ -54,7 +54,7 @@ namespace Shop.AdminPanel.SeedDatabase
             var product2 = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "Acer Aspire 3",
-                CategoryId = category5,
+                CategoryId = category5.Id,
                 Price = 43500,
                 Rating = 7.6f,
                 Info = "Ноутбук Acer Aspire 3 A315-23-R5B8, 15.6 AMD Ryzen 5 3500U 2.1ГГц, 8ГБ, 1ТБ, AMD Radeon Vega 8,  Eshell, NX.HVUER.006, серебристый"

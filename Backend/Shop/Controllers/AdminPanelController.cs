@@ -7,6 +7,7 @@ using Shop.AdminPanel.DeleteCategory;
 using Shop.AdminPanel.DeleteFeature;
 using Shop.AdminPanel.DeleteProduct;
 using Shop.AdminPanel.EditCategory;
+using Shop.AdminPanel.EditFeature;
 using Shop.AdminPanel.EditProduct;
 using Shop.AdminPanel.SeedDatabase;
 using Shop.Model;
@@ -26,18 +27,18 @@ namespace Shop.Controllers
         }
 
         [HttpPost("CreateCategory")]
-        public async Task<int> CreateCategory(CreateCategoryCommand command)
+        public async Task<Category> CreateCategory(CreateCategoryCommand command)
         {
-            var categoryId = await _mediator.Send(command);
+            var category = await _mediator.Send(command);
 
             foreach(var feature in command.Features)
             {
-                var featureCommand = new CreateCategoryFeaturesCommand() { CategoryId = categoryId, Name = feature };
+                var featureCommand = new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = feature };
                 await _mediator.Send(featureCommand);
             }
 
 
-            return categoryId;
+            return category;
         }
 
         [HttpPost("CreateCategoryFeatures")]
@@ -99,7 +100,13 @@ namespace Shop.Controllers
         }
 
         [HttpPut("EditCategory")]
-        public async Task<int> EditCategoryCommand(EditCategoryCommand command)
+        public async Task<Category> EditCategoryCommand(EditCategoryCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpPut("EditFeature")]
+        public async Task<Feature> EditFeature(EditFeatureCommand command)
         {
             return await _mediator.Send(command);
         }
