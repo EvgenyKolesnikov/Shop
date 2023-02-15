@@ -77,8 +77,7 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-            var serverconnection = "workstation id=ShopyDb.mssql.somee.com;packet size=4096;user id=jackSmith_SQLLogin_1;pwd=z4uy7pegsm;data source=ShopyDb.mssql.somee.com;persist security info=False;initial catalog=ShopyDb";
-            var docker = "Data Source=.;Initial Catalog=Shop;User Id=sa;Password=123qweQWE!";
+           
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
             .UseLazyLoadingProxies());
