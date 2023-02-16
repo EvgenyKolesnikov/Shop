@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Shop.AdminPanel.ChangeCountProduct;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateCategoryFeatures;
+using Shop.AdminPanel.CreateProduct;
 using Shop.AdminPanel.DeleteCategory;
 using Shop.AdminPanel.DeleteFeature;
 using Shop.AdminPanel.DeleteProduct;
 using Shop.AdminPanel.EditCategory;
 using Shop.AdminPanel.EditFeature;
 using Shop.AdminPanel.EditProduct;
-using Shop.AdminPanel.SeedDatabase;
 using Shop.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -49,7 +50,7 @@ namespace Shop.Controllers
 
 
         [HttpPost("CreateProduct")]
-        public async Task<Product> CreateProduct(CreateProductCommand command)
+        public async Task<CreateProductResponse> CreateProduct(CreateProductCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -94,7 +95,19 @@ namespace Shop.Controllers
         /// <returns></returns>
     
         [HttpPut("EditProduct")]
-        public async Task<string> EditProduct(EditProductCommand command)
+        public async Task<EditProductResponse> EditProduct(EditProductCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+
+        /// <summary>
+        /// Изменить кол-во товара
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("ChangeCountProduct")]
+        public async Task<ChangeCountProductResponse> ChangeCountProduct(ChangeCountProductCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -111,18 +124,5 @@ namespace Shop.Controllers
             return await _mediator.Send(command);
         }
 
-
-        /// <summary>
-        ///  Сброс данных
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("SeedDatabase")]
-        public async Task<string> SeedDatabase()
-        {
-
-            var command = new SeedDatabaseCommand();
-
-            return await _mediator.Send(command);
-        }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Shop.AdminPanel.CreateProduct;
 using Shop.Model;
 
-namespace Shop.AdminPanel.Commands
+namespace Shop.AdminPanel.CreateProduct
 {
-    public class CreateProductCommand : IRequest<Product>
+    public class CreateProductCommand : IRequest<CreateProductResponse>
     {
         public string? Name { get; set; }
         public int? CategoryId { get; set; }

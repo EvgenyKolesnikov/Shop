@@ -29,7 +29,7 @@ namespace Shop.AdminPanel.EditCategory
                 category.ParentCategoryId = command.ParentCategoryId;
             }
 
-
+           
 
             await _shopDbContext.SaveChangesAsync();
 

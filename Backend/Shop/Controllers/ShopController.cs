@@ -16,7 +16,7 @@ namespace Shop.Controllers
         IProductRepository<Product> _productRepository;
         private readonly IMediator _mediator;
 
-        public ShopController(IProductRepository<Product> productRepository, ShopDbContext shopDbContext, IMediator mediator)
+        public ShopController(IProductRepository<Product> productRepository, IMediator mediator)
         {
             _productRepository = productRepository;
             _mediator = mediator;

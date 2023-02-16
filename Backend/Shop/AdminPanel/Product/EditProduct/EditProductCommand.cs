@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Shop.AdminPanel.EditProduct
 {
-    public class EditProductCommand : IRequest<string>
+    public class EditProductCommand : IRequest<EditProductResponse>
     {
         public int ProductId { get; set; }
         public string? Name { get; set; }
@@ -12,8 +12,6 @@ namespace Shop.AdminPanel.EditProduct
 
         public string? Info { get; set; }
         public float? Price { get; set; }
-
-        public int? Rating { get; set; }
 
 
         /// <example>{"FeatureId":1,"FeatureValue":"Red Color"} </example>

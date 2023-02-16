@@ -31,6 +31,7 @@ namespace ShopTests
 
   
             services.AddMediatR(typeof(Shop.Startup));
+            
             AddDbContext(services);
         }
 

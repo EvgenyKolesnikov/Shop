@@ -10,6 +10,7 @@ namespace Shop.Database
         {
            // Database.EnsureDeleted();
             Database.EnsureCreated();
+            
         }
 
         public DbSet<Category> Categories { get; set; } 
@@ -22,7 +23,7 @@ namespace Shop.Database
         //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            
            modelBuilder.Entity<Category>()
                 .HasMany(p => p.Products)
                 .WithOne(p => p.Category)
@@ -37,6 +38,15 @@ namespace Shop.Database
                 .WithMany(c => c.ChildCategories)
                 .HasForeignKey(c => c.ParentCategoryId);
             });
+        }
+
+
+
+        public void TruncateAllTables()
+        {
+            Database.ExecuteSqlRaw("EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL' ");
+            Database.ExecuteSqlRaw("EXEC sp_MSForEachTable 'DELETE FROM ?' ");
+            Database.ExecuteSqlRaw("EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL' ");
         }
     }
 }

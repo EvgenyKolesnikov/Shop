@@ -9,7 +9,6 @@ namespace Shop.Model
     {
         public string? Name { get; set; }
 
-        
         public int? CategoryId { get; set; }
 
         [JsonProperty(Order = 12)]
@@ -19,5 +18,6 @@ namespace Shop.Model
         public string? Info { get; set; }
         public float? Price { get; set; }
         public float? Rating { get; set; }
+        public int Count { get; set; }
     }
 }

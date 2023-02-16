@@ -5,7 +5,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.EditProduct
 {
-    public class EditProductHandler : IRequestHandler<EditProductCommand, string>
+    public class EditProductHandler : IRequestHandler<EditProductCommand, EditProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
         private readonly IMediator _mediator;
@@ -16,38 +16,29 @@ namespace Shop.AdminPanel.EditProduct
             _mediator = mediator;
         }
 
-        public async Task<string> Handle(EditProductCommand command, CancellationToken cancellationToken)
+        public async Task<EditProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
-            string result = "";
-
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
             var features = await _mediator.Send(new GetCategoryFeaturesQuery() { Id = product.CategoryId });
 
-
             if (product == null)
             {
-                return "Product doesn't exist";
+                return new EditProductResponse() { Message = "Товар отсутствует"};
             }
 
-            if (command.Name != null) { product.Name = command.Name; result += "Name has been changed \n"; }
-            if (command.Price != null) { product.Price = command.Price; result += "Price has been changed \n"; }
-            if (command.Info != null) { product.Info = command.Info; result += "Info has been changed \n"; };
-            if (command.Rating != null) { product.Rating = command.Rating; result += "Rating has been changed \n"; }
+
             if (command.CategoryId != null)
             {
-                var category = _shopDbContext.Categories.Find(command.CategoryId);
+                var commandCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
               
-                if (category != null && category != product.Category)
+                if (commandCategory != product.Category)
                 {
-                    product.Category = category;
+                    product.Category = commandCategory;
        
                     product.Features.RemoveAll(i => product.Features.Contains(i));   
-                    result += "Category has been changed \n";
+            
                 }
-                else
-                {
-                    result += "Category doesn't exist !!!";
-                }
+
             }
             
             foreach (var feature in features ?? new List<Feature>())
@@ -74,7 +65,7 @@ namespace Shop.AdminPanel.EditProduct
 
             await _shopDbContext.SaveChangesAsync();
 
-            return result;
+            return new EditProductResponse() { Product = product, Message = "Success"};
         }
     }
 }

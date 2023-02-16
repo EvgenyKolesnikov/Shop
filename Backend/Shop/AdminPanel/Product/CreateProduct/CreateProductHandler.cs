@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shop.AdminPanel.Commands;
+using Shop.AdminPanel.CreateProduct;
 using Shop.Database;
 using Shop.Model;
 
-namespace Shop.AdminPanel.Handlers
+namespace Shop.AdminPanel.CreateProduct
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -15,14 +16,17 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CreateProductResponse> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var category = _shopDbContext.Categories.Find(command.CategoryId);
+            var Existproduct = await _shopDbContext.Products.FirstOrDefaultAsync(i => i.Name == command.Name);
+            if(Existproduct != null) { return new CreateProductResponse() { Product = Existproduct, Message = "Товар уже существует"}; };
+                      
+            var category = await _shopDbContext.Categories.FindAsync(command.CategoryId);
 
-            var categories = GetParents(category);
-            var features = GetAllFeatures(categories);
+            var parentsCategories = GetParents(category);
+            var features = GetAllFeatures(parentsCategories);
 
-
+            
             var product = new Product
             {
                 Name = command.Name,
@@ -47,16 +51,20 @@ namespace Shop.AdminPanel.Handlers
             await _shopDbContext.Products.AddAsync(product);
             await _shopDbContext.SaveChangesAsync();
 
-            return product;
+            var response = new CreateProductResponse() { Product = product, Message = "Success"};
+
+            return response;
         }
 
         private List<Category> GetParents(Category category)
         {
             var result = new List<Category>();
+
+            if(category == null) { return result; }
             
             result.Add(category);
 
-            var ParentCategory = category.ParentCategory;
+            var ParentCategory = category?.ParentCategory;
             while (ParentCategory != null)
             {
                 result.Add(ParentCategory);

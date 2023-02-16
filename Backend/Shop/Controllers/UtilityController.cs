@@ -1,33 +1,41 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.Commands;
+using Shop.AdminPanel.CreateProduct;
 using Shop.AdminPanel.EditProduct;
 using Shop.Database;
-using Shop.Model;
 
-namespace Shop.AdminPanel.SeedDatabase
+namespace Shop.Controllers
 {
-    public class SeedDatabaseHandler : IRequestHandler<SeedDatabaseCommand,string>
+    [ApiController]
+    [Route("[controller]")]
+    public class UtilityController : ControllerBase
     {
         private readonly ShopDbContext _shopDbContext;
         private readonly IMediator _mediator;
-        public SeedDatabaseHandler(ShopDbContext shopDbContext, IMediator mediator)
+        public UtilityController(ShopDbContext shopDbContext,IMediator mediator)
         {
             _shopDbContext = shopDbContext;
             _mediator = mediator;
         }
 
-        public async Task<string> Handle(SeedDatabaseCommand command, CancellationToken cancellationToken)
+        /// <summary>
+        /// Очистить БД
+        /// </summary>
+        [HttpDelete("TruncateDatabase")]
+        public void TruncateDatabase()
         {
-            var Categories = _shopDbContext.Categories;
-            var Products = _shopDbContext.Products;
-            var Features = _shopDbContext.Features;
-          //  var CategoriesChild = _shopDbContext.CategoryChilds;
+            _shopDbContext.TruncateAllTables();
+        }
 
-            _shopDbContext.RemoveRange(Categories);
-         //  _shopDbContext.RemoveRange(CategoriesChild);
-            _shopDbContext.RemoveRange(Products);
-            _shopDbContext.RemoveRange(Features);
-            _shopDbContext.SaveChanges();
+        /// <summary>
+        /// Заполнить БД Тестовыми данными
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("SeedDatabase")]
+        public async Task<string> SeedDatabase()
+        {
+            _shopDbContext.TruncateAllTables();    
 
             var category1 = await _mediator.Send(new CreateCategoryCommand() { Name = "Мебель", ParentCategoryId = null });
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
@@ -60,26 +68,27 @@ namespace Shop.AdminPanel.SeedDatabase
                 Info = "Ноутбук Acer Aspire 3 A315-23-R5B8, 15.6 AMD Ryzen 5 3500U 2.1ГГц, 8ГБ, 1ТБ, AMD Radeon Vega 8,  Eshell, NX.HVUER.006, серебристый"
             });
 
-            await _mediator.Send(new EditProductCommand() { ProductId = product1.Id, FeatureValue = new Dictionary<int, string>() { 
+            await _mediator.Send(new EditProductCommand()
+            {
+                ProductId = product1.Product.Id,
+                FeatureValue = new Dictionary<int, string>() {
                 { feature1.Id, "Apple" },
                 { feature2.Id, "M1" },
                 { feature3.Id, "интегрированный" },
                 { feature4.Id, "16 ГБ" }
-            } });
+            }
+            });
 
             await _mediator.Send(new EditProductCommand()
             {
-                ProductId = product2.Id,FeatureValue = new Dictionary<int, string>() {
+                ProductId = product2.Product.Id,
+                FeatureValue = new Dictionary<int, string>() {
                 { feature1.Id, "Acer" },
                 { feature2.Id, "AMD Ryzen 5 3500U" },
                 { feature3.Id, "AMD Radeon Vega 8" },
                 { feature4.Id, "8 ГБ" }
             }
             });
-
-
-
-
 
             return "Success";
         }
