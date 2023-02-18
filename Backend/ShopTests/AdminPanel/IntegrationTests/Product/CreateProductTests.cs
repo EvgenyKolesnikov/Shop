@@ -38,6 +38,9 @@ namespace Shop.AdminPanel.IntegrationTests
             Assert.Equal(product, createProductResponse.Product);
         }
 
+        /// <summary>
+        /// Добавление дубликатов 
+        /// </summary>
         [Fact]
         public async void AddDuplicate()
         {

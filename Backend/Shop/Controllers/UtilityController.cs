@@ -55,7 +55,6 @@ namespace Shop.Controllers
                 Name = "MacBook Pro",
                 CategoryId = category5.Id,
                 Price = 150000,
-                Rating = 8.4f,
                 Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
             });
 
@@ -64,13 +63,13 @@ namespace Shop.Controllers
                 Name = "Acer Aspire 3",
                 CategoryId = category5.Id,
                 Price = 43500,
-                Rating = 7.6f,
                 Info = "Ноутбук Acer Aspire 3 A315-23-R5B8, 15.6 AMD Ryzen 5 3500U 2.1ГГц, 8ГБ, 1ТБ, AMD Radeon Vega 8,  Eshell, NX.HVUER.006, серебристый"
             });
 
             await _mediator.Send(new EditProductCommand()
             {
                 ProductId = product1.Product.Id,
+           
                 FeatureValue = new Dictionary<int, string>() {
                 { feature1.Id, "Apple" },
                 { feature2.Id, "M1" },

@@ -14,7 +14,7 @@ namespace Shop.Model
         [JsonProperty(Order = 12)]
         public virtual Category? Category { get; set; }
         [JsonProperty(Order = 13)]
-        public virtual List<FeatureValue> Features { get; set; } = new List<FeatureValue>();
+        public virtual List<FeatureValue> FeatureValues { get; set; } = new List<FeatureValue>();
         public string? Info { get; set; }
         public float? Price { get; set; }
         public float? Rating { get; set; }

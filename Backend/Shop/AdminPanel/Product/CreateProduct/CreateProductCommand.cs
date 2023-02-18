@@ -10,6 +10,5 @@ namespace Shop.AdminPanel.CreateProduct
         public int? CategoryId { get; set; }
         public string? Info { get; set; }
         public float Price { get; set; }
-        public float? Rating { get; set; }
     }
 }

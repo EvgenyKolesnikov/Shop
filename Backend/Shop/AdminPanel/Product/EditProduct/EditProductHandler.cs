@@ -2,6 +2,7 @@
 using Shop.AdminPanel.GetCategoryFeatures;
 using Shop.Database;
 using Shop.Model;
+using System.Linq;
 
 namespace Shop.AdminPanel.EditProduct
 {
@@ -19,35 +20,40 @@ namespace Shop.AdminPanel.EditProduct
         public async Task<EditProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
-            var features = await _mediator.Send(new GetCategoryFeaturesQuery() { Id = product.CategoryId });
+            var features = product.Category.Features;
 
             if (product == null)
             {
                 return new EditProductResponse() { Message = "Товар отсутствует"};
             }
 
+            product.Name = command.Name;
+            product.Price = command.Price;
+            product.Info = command.Info;
 
+
+            // если меняеются категории, то набор Features тоже должны меняться
             if (command.CategoryId != null)
             {
-                var commandCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
+                var newCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
               
-                if (commandCategory != product.Category)
+                if (newCategory != product.Category)
                 {
-                    product.Category = commandCategory;
+                    product.Category = newCategory;
        
-                    product.Features.RemoveAll(i => product.Features.Contains(i));   
-            
+                    product.FeatureValues.RemoveAll(i => product.FeatureValues.Contains(i));
+                    features = newCategory.Features;
+                    await _shopDbContext.SaveChangesAsync();
                 }
-
             }
             
             foreach (var feature in features ?? new List<Feature>())
             {
-                var existFeature = product.Features.FirstOrDefault(i => i.FeatureId == feature.Id);
+                var existFeatureValue = product.FeatureValues.FirstOrDefault(i => i.FeatureId == feature.Id);
                 var value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id);
 
                 //add feature
-                if (existFeature == null)
+                if (existFeatureValue == null)
                 {
                     var featureitem = new FeatureValue()
                     {
@@ -59,7 +65,7 @@ namespace Shop.AdminPanel.EditProduct
                 }
                 else
                 {
-                    existFeature.Value = value.Value;
+                    existFeatureValue.Value = value.Value;
                 }
             }
 

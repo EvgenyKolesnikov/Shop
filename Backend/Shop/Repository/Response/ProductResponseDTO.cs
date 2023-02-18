@@ -24,7 +24,7 @@ namespace Shop.Repository.Response
             Price = product.Price;
             Rating = product.Rating;
 
-            Features = product.Features.Select(f => new FeatureResponseDTO()
+            Features = product.FeatureValues.Select(f => new FeatureResponseDTO()
             {
                 Name = f.Feature?.Name,
                 Value = f.Value

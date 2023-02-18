@@ -32,8 +32,7 @@ namespace Shop.AdminPanel.CreateProduct
                 Name = command.Name,
                 Category = category,
                 Info = command.Info,
-                Price = command.Price,
-                Rating = command.Rating,
+                Price = command.Price
             };
             if (category != null)
             {
@@ -44,7 +43,7 @@ namespace Shop.AdminPanel.CreateProduct
                         Feature = feature,
                         Product = product,
                     };
-                    product.Features.Add(value);
+                    product.FeatureValues.Add(value);
                 }
             }
             

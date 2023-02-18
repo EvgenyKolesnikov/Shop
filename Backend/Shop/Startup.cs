@@ -70,14 +70,12 @@ namespace Shop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-
         }
 
         private void AddDbContext(IServiceCollection services)
         {
             var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-          
+           
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
             .UseLazyLoadingProxies());
