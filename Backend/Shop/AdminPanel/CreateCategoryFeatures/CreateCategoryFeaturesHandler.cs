@@ -61,7 +61,6 @@ namespace Shop.AdminPanel.Handlers
                 feature.Categories.Add(category);
 
                 await _shopDbContext.AddAsync(feature);
-                
 
                 var categories = GetAllChildsCategories(category); 
 
@@ -78,8 +77,6 @@ namespace Shop.AdminPanel.Handlers
                     await _shopDbContext.AddAsync(featureitem);
                 }
                 await _shopDbContext.SaveChangesAsync();
-
-
 
                 response.Id = feature.Id;
                 response.result = "New feature has been added";

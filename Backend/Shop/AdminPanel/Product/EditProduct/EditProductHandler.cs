@@ -9,30 +9,24 @@ namespace Shop.AdminPanel.EditProduct
     public class EditProductHandler : IRequestHandler<EditProductCommand, EditProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
-        private readonly IMediator _mediator;
 
         public EditProductHandler(ShopDbContext shopDbContext, IMediator mediator)
         {
             _shopDbContext = shopDbContext;
-            _mediator = mediator;
         }
 
         public async Task<EditProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
-            var features = product.Category.Features;
+            var features = product?.Category?.Features;
 
-            if (product == null)
-            {
-                return new EditProductResponse() { Message = "Товар отсутствует"};
-            }
+            if (product == null) { return new EditProductResponse() { Message = "Товар отсутствует"};}
 
             product.Name = command.Name;
             product.Price = command.Price;
             product.Info = command.Info;
 
-
-            // если меняеются категории, то набор Features тоже должны меняться
+            // если меняеются категории, то набор FeatureValue удаляется
             if (command.CategoryId != null)
             {
                 var newCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
@@ -40,13 +34,12 @@ namespace Shop.AdminPanel.EditProduct
                 if (newCategory != product.Category)
                 {
                     product.Category = newCategory;
-       
                     product.FeatureValues.RemoveAll(i => product.FeatureValues.Contains(i));
                     features = newCategory.Features;
-                    await _shopDbContext.SaveChangesAsync();
                 }
             }
             
+            //создание нового набора FeatureValues, либо редактирование существующего
             foreach (var feature in features ?? new List<Feature>())
             {
                 var existFeatureValue = product.FeatureValues.FirstOrDefault(i => i.FeatureId == feature.Id);
