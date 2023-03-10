@@ -25,7 +25,7 @@ namespace Shop.AdminPanel.EditFeature
 
             await _shopDbContext.SaveChangesAsync();
 
-            var response = new FeaturesResponse() { Feature = feature, result = "Feature add"};
+            var response = new FeaturesResponse() { Feature = feature, Message = "Feature add"};
 
             return response;
         }

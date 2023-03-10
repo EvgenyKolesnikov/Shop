@@ -3,7 +3,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.EditCategory
 {
-    public class EditCategoryCommand : IRequest<Category>
+    public class EditCategoryCommand : IRequest<CategoryResponse>
     {
         public int CategoryId { get; set; }
         public string? Name { get; set; }

@@ -22,6 +22,11 @@ namespace Shop.Controllers
             _mediator = mediator;
         }
 
+
+        /// <summary>
+        /// Получить список всех продуктов
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetProducts")]
         public IEnumerable<ProductResponseDTO> GetProducts()
         {
@@ -34,6 +39,11 @@ namespace Shop.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Получить конкретный продукт
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet("GetProductById")]
         public ProductResponseDTO GetProductById(int Id)
         {
@@ -44,6 +54,10 @@ namespace Shop.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Получить список всех атрибутов
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetFeatures")]
         public IEnumerable<Feature> GetFeatures()
         {
@@ -52,6 +66,10 @@ namespace Shop.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Получить список категорий в виде дерева
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetCategoriesTree")]
         public IEnumerable<CategoryResponseTreeDTO> GetCategoriesTree()
         {
@@ -64,6 +82,11 @@ namespace Shop.Controllers
             return response;
         }
 
+
+        /// <summary>
+        /// Получить список категорий
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetCategories")]
         public IEnumerable<CategoryResponseDTO> GetCategories()
         {
@@ -79,7 +102,11 @@ namespace Shop.Controllers
 
 
 
-
+        /// <summary>
+        /// Получить список атрибутов конкретной категории
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetFeaturesByCategory/{id}")]
         public async Task<IEnumerable<Feature>> GetFeaturesByCategory([FromRoute] int id)
         {
@@ -94,6 +121,12 @@ namespace Shop.Controllers
             return response;
         }
 
+
+        /// <summary>
+        /// Получить список продуктов конкретной категории
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetProductsByCategory/{id}")]
         public async Task<IEnumerable<ProductResponseDTO>> GetProductsByCategoryd([FromRoute] int id)
         {

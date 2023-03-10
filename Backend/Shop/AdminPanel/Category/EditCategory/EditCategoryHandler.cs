@@ -4,7 +4,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.EditCategory
 {
-    public class EditCategoryHandler : IRequestHandler<EditCategoryCommand, Category>
+    public class EditCategoryHandler : IRequestHandler<EditCategoryCommand, CategoryResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -13,7 +13,7 @@ namespace Shop.AdminPanel.EditCategory
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<Category> Handle(EditCategoryCommand command, CancellationToken cancellationToken)
+        public async Task<CategoryResponse> Handle(EditCategoryCommand command, CancellationToken cancellationToken)
         {
             var editCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
 
@@ -39,7 +39,13 @@ namespace Shop.AdminPanel.EditCategory
 
             await _shopDbContext.SaveChangesAsync();
 
-            return editCategory;
+            var response = new CategoryResponse()
+            {
+                Category = editCategory,
+                Message = "Success"
+            };
+
+            return response;
         }
     }
 }

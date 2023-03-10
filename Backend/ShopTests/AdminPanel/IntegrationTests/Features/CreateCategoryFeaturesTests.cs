@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using Shop.AdminPanel.Commands;
 using Shop.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ShopTests.AdminPanel.IntegrationTests.Features
@@ -32,7 +27,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
 
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Продукты", Features = new List<string>() { "Цвет" } });
 
-            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "aa", CategoryId = category.Id });
+            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "aa", CategoryId = category.Category.Id });
             
             var features = _shopDbContext.Features.ToList();
             
@@ -52,7 +47,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
 
             var features = _shopDbContext.Features.ToList();
 
-            Assert.Equal("Category not found", feature.result);
+            Assert.Equal("Category not found", feature.Message);
             Assert.Empty(features);
 
         }
@@ -70,13 +65,13 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Мебель", Features = new List<string>() { "Ширина" } });
 
 
-            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "Ширина", CategoryId = category.Id });
+            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "Ширина", CategoryId = category.Category.Id });
 
             var features = _shopDbContext.Features.ToList();
 
 
-            var categoryDb1 = _shopDbContext.Categories.Find(category.Id);
-            var categoryDb2 = _shopDbContext.Categories.Find(category2.Id);
+            var categoryDb1 = _shopDbContext.Categories.Find(category.Category.Id);
+            var categoryDb2 = _shopDbContext.Categories.Find(category2.Category.Id);
             var featuresDb = _shopDbContext.Features.ToList();
 
             Assert.Equal(2, categoryDb1.Features.Count);
@@ -97,13 +92,13 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Мебель", Features = new List<string>() { "Ширина" } });
 
 
-            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "Высота", CategoryId = category.Id });
+            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { Name = "Высота", CategoryId = category.Category.Id });
 
             var features = _shopDbContext.Features.ToList();
 
 
-            var categoryDb1 = _shopDbContext.Categories.Find(category.Id);
-            var categoryDb2 = _shopDbContext.Categories.Find(category2.Id);
+            var categoryDb1 = _shopDbContext.Categories.Find(category.Category.Id);
+            var categoryDb2 = _shopDbContext.Categories.Find(category2.Category.Id);
             var featuresDb = _shopDbContext.Features.ToList();
 
             Assert.Equal(2, categoryDb1.Features.Count);

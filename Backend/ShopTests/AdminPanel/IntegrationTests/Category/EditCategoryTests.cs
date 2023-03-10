@@ -11,6 +11,7 @@ using Xunit;
 
 namespace ShopTests.AdminPanel.IntegrationTests.Category
 {
+    [Collection("IntegrationTests")]
     public class EditCategoryTests
     {
         private readonly ShopDbContext _shopDbContext;
@@ -24,24 +25,24 @@ namespace ShopTests.AdminPanel.IntegrationTests.Category
 
 
         /// <summary>
-        /// 
+        /// При смене родительской категории, иерархия должна корректно перестраиваться
         /// </summary>
         [Fact]
-        public async void EditCategory()
+        public async void EditCategory_CorrectHierarchy()
         {
             _shopDbContext.TruncateAllTables();
 
             var category1 = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null, Features = new List<string>() { "Бренд", "Цвет" } });
-            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category1.Id, Features = new List<string>() { "Стационарные" } });
-            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Id, Features = new List<string>() { "Ширина" } });
-            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Моноблоки", ParentCategoryId = category2.Id, Features = new List<string>() { "Ширина" } });
+            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category1.Category.Id, Features = new List<string>() { "Стационарные" } });
+            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Category.Id, Features = new List<string>() { "Ширина" } });
+            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Моноблоки", ParentCategoryId = category2.Category.Id, Features = new List<string>() { "Ширина" } });
 
-            var editedCategory = await _mediator.Send(new EditCategoryCommand() {CategoryId = category2.Id, Name = "Компьютеры2",ParentCategoryId = category3.Id });
+            var editedCategory = await _mediator.Send(new EditCategoryCommand() {CategoryId = category2.Category.Id, Name = "Компьютеры2",ParentCategoryId = category3.Category.Id });
 
-            var categoryDb1 = _shopDbContext.Categories.Find(category1.Id);
-            var categoryDb2 = _shopDbContext.Categories.Find(category2.Id);
-            var categoryDb3 = _shopDbContext.Categories.Find(category3.Id);
-            var categoryDb4 = _shopDbContext.Categories.Find(category4.Id);
+            var categoryDb1 = _shopDbContext.Categories.Find(category1.Category.Id);
+            var categoryDb2 = _shopDbContext.Categories.Find(category2.Category.Id);
+            var categoryDb3 = _shopDbContext.Categories.Find(category3.Category.Id);
+            var categoryDb4 = _shopDbContext.Categories.Find(category4.Category.Id);
 
 
             Assert.Null(categoryDb1.ParentCategory);

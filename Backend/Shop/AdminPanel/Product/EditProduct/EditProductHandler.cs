@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Shop.AdminPanel.EditProduct
 {
-    public class EditProductHandler : IRequestHandler<EditProductCommand, EditProductResponse>
+    public class EditProductHandler : IRequestHandler<EditProductCommand, ProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -15,12 +15,12 @@ namespace Shop.AdminPanel.EditProduct
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<EditProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
+        public async Task<ProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
             var features = product?.Category?.Features;
 
-            if (product == null) { return new EditProductResponse() { Message = "Товар отсутствует"};}
+            if (product == null) { return new ProductResponse() { Message = "Товар отсутствует"};}
 
             product.Name = command.Name;
             product.Price = command.Price;
@@ -64,7 +64,7 @@ namespace Shop.AdminPanel.EditProduct
 
             await _shopDbContext.SaveChangesAsync();
 
-            return new EditProductResponse() { Product = product, Message = "Success"};
+            return new ProductResponse() { Product = product, Message = "Success"};
         }
     }
 }

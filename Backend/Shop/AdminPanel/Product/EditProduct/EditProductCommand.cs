@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Shop.AdminPanel.EditProduct
 {
-    public class EditProductCommand : IRequest<EditProductResponse>
+    public class EditProductCommand : IRequest<ProductResponse>
     {
         public int ProductId { get; set; }
         public string? Name { get; set; }

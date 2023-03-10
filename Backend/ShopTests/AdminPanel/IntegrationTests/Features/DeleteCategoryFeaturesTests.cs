@@ -32,7 +32,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
 
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Продукты", Features = new List<string>() { "Цвет" } });
 
-            var feature = await _mediator.Send(new DeleteFeatureCommand() {Id = category.Features.First().Id });
+            var feature = await _mediator.Send(new DeleteFeatureCommand() {Id = category.Category.Features.First().Id });
 
             var features = await _shopDbContext.Features.ToListAsync(); 
             
@@ -48,7 +48,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
 
             var features = await _shopDbContext.Features.ToListAsync();
 
-            Assert.Equal("Feature Not Found", feature.result);
+            Assert.Equal("Feature Not Found", feature);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Shop.AdminPanel.Handlers
             var category = _shopDbContext.Categories.Find(command.CategoryId);
             if (category == null)
             {
-                response.result = "Category not found";
+                response.Message = "Category not found";
                 return response;
             }
 
@@ -37,7 +37,7 @@ namespace Shop.AdminPanel.Handlers
 
                 if (existCategory != null)
                 {
-                    response.result = "Feature already exist in current category";
+                    response.Message = "Feature already exist in current category";
                     return response;
                 }
                 else
@@ -47,7 +47,7 @@ namespace Shop.AdminPanel.Handlers
                     await _shopDbContext.SaveChangesAsync();
 
                     response.Feature = existFeature;
-                    response.result = "Feature was linked with current category";
+                    response.Message = "Feature was linked with current category";
                     return response;
                 }
             }
@@ -78,7 +78,7 @@ namespace Shop.AdminPanel.Handlers
                 await _shopDbContext.SaveChangesAsync();
 
                 response.Feature = feature;
-                response.result = "New feature has been added";
+                response.Message = "New feature has been added";
                 return response;
             }
         }

@@ -31,19 +31,19 @@ namespace ShopTests.AdminPanel.IntegrationTests.Category
             _shopDbContext.TruncateAllTables();
 
             var category1 = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null, Features = new List<string>() { "Бренд", "Цвет" } });
-            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category1.Id, Features = new List<string>() { "Стационарные" } });
-            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Комплектующие", ParentCategoryId = category2.Id, Features = new List<string>() { "CPU" } });
-            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Id });
+            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Компьютеры", ParentCategoryId = category1.Category.Id, Features = new List<string>() { "Стационарные" } });
+            var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Комплектующие", ParentCategoryId = category2.Category.Id, Features = new List<string>() { "CPU" } });
+            var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Category.Id });
 
             var features = _shopDbContext.Features.ToList();
 
-            var _category1 = _shopDbContext.Categories.Find(category1.Id);
-            var _category2 = _shopDbContext.Categories.Find(category2.Id);
-            var _category3 = _shopDbContext.Categories.Find(category3.Id);
-            var _category4 = _shopDbContext.Categories.Find(category4.Id);
+            var _category1 = _shopDbContext.Categories.Find(category1.Category.Id);
+            var _category2 = _shopDbContext.Categories.Find(category2.Category.Id);
+            var _category3 = _shopDbContext.Categories.Find(category3.Category.Id);
+            var _category4 = _shopDbContext.Categories.Find(category4.Category.Id);
 
-            var category1Children = category1.ChildCategories;
-            var category2Children = category2.ChildCategories;
+            var category1Children = category1.Category.ChildCategories;
+            var category2Children = category2.Category.ChildCategories;
 
             Assert.Contains(_category2?.Name, category1Children.Select(i => i.Name));
             Assert.Contains(_category3?.Name, category2Children.Select(i => i.Name));

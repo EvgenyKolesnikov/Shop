@@ -3,7 +3,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Commands
 {
-    public class CreateCategoryCommand : IRequest<Category>
+    public class CreateCategoryCommand : IRequest<CategoryResponse>
     {
         public string? Name { get; set; }
         public int? ParentCategoryId { get; set; }

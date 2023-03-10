@@ -59,14 +59,14 @@ namespace Shop.AdminPanel.IntegrationTests
 
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = null });
 
-            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Процессор" });
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Видеокарта" });
+            var feature = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Бренд" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Процессор" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Видеокарта" });
 
             var product = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
             });
 
             await _mediator.Send(new EditProductCommand()
@@ -90,8 +90,8 @@ namespace Shop.AdminPanel.IntegrationTests
             Assert.Equal(0,productsCount);
             Assert.Equal(0,featureValuesCount);
 
-            var categoryResponse = _shopDbContext.Categories.Find(category.Id);
-            Assert.Equal(categoryResponse,category);
+            var categoryResponse = _shopDbContext.Categories.Find(category.Category.Id);
+            Assert.Equal(categoryResponse,category.Category);
 
             var featuresCount = _shopDbContext.Features.ToList().Count();
             Assert.Equal(3,featuresCount);

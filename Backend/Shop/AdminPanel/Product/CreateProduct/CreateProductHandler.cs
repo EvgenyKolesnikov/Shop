@@ -7,7 +7,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.CreateProduct
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResponse>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -16,10 +16,10 @@ namespace Shop.AdminPanel.CreateProduct
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<CreateProductResponse> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<ProductResponse> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var Existproduct = await _shopDbContext.Products.FirstOrDefaultAsync(i => i.Name == command.Name);
-            if(Existproduct != null) { return new CreateProductResponse() { Product = Existproduct, Message = "Товар уже существует"}; };
+            if(Existproduct != null) { return new ProductResponse() { Product = Existproduct, Message = "Товар уже существует"}; };
                       
             var category = await _shopDbContext.Categories.FindAsync(command.CategoryId);
 
@@ -50,7 +50,7 @@ namespace Shop.AdminPanel.CreateProduct
             await _shopDbContext.Products.AddAsync(product);
             await _shopDbContext.SaveChangesAsync();
 
-            var response = new CreateProductResponse() { Product = product, Message = "Success"};
+            var response = new ProductResponse() { Product = product, Message = "Success"};
 
             return response;
         }

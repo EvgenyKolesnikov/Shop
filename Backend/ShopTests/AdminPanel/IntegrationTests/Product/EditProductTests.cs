@@ -38,16 +38,16 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = null });
 
-            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Процессор" });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Бренд" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Процессор" });
 
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Цвет" });
-            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Ширина" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Цвет" });
+            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Ширина" });
 
             var product = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 Price = 150000,
                 Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
             });
@@ -59,7 +59,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Name = "EditedName",
                 Price = 1000,
                 Info = "EditedInfo",
-                CategoryId = category2.Id,
+                CategoryId = category2.Category.Id,
                 FeatureValue = new Dictionary<int, string>() {
                 { feature3.Feature.Id, "Acer" },
                 { feature4.Feature.Id, "AMD Ryzen 5 3500U" }
@@ -75,7 +75,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             Assert.Equal("EditedName", productDb.Name);
             Assert.Equal("EditedInfo", productDb.Info);
             Assert.Equal(1000, productDb.Price);
-            Assert.Equal(category2.Name, productDb.Category.Name);
+            Assert.Equal(category2.Category.Name, productDb.Category.Name);
             Assert.Contains("Acer", features);
             Assert.Contains("AMD Ryzen 5 3500U", features);
         }
@@ -94,16 +94,16 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = null });
 
-            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Процессор" });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Бренд" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Процессор" });
 
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Цвет" });
-            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Ширина" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Цвет" });
+            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Ширина" });
 
             var product = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 Price = 150000,
                 Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
             });
@@ -115,7 +115,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Name = "EditedName",
                 Price = 1000,
                 Info = "EditedInfo",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 FeatureValue = new Dictionary<int, string>() {
                 { feature1.Feature.Id, "Acer" },
                 { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
@@ -131,7 +131,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             Assert.Equal("EditedName", productDb.Name);
             Assert.Equal("EditedInfo", productDb.Info);
             Assert.Equal(1000, productDb.Price);
-            Assert.Equal(category.Name, productDb.Category.Name);
+            Assert.Equal(category.Category.Name, productDb.Category.Name);
             Assert.Contains("Acer", features);
             Assert.Contains("AMD Ryzen 5 3500U", features);
         }
@@ -150,16 +150,16 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
             var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = null });
 
-            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = "Процессор" });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Бренд" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Процессор" });
 
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Цвет" });
-            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Id, Name = "Ширина" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Цвет" });
+            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Ширина" });
 
             var product = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 Price = 150000,
                 Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
             });
@@ -171,7 +171,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Name = "EditedName",
                 Price = 1000,
                 Info = "EditedInfo",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 FeatureValue = new Dictionary<int, string>() {
                 { feature1.Feature.Id, "Acer" },
                 { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
@@ -185,7 +185,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Name = "EditedName",
                 Price = 1000,
                 Info = "EditedInfo",
-                CategoryId = category.Id,
+                CategoryId = category.Category.Id,
                 FeatureValue = new Dictionary<int, string>() {
                 { feature1.Feature.Id, "Acer" },
                 { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
@@ -200,7 +200,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             Assert.Equal("EditedName", productDb.Name);
             Assert.Equal("EditedInfo", productDb.Info);
             Assert.Equal(1000, productDb.Price);
-            Assert.Equal(category.Name, productDb.Category.Name);
+            Assert.Equal(category.Category.Name, productDb.Category.Name);
             Assert.Contains("Acer", features);
             Assert.Contains("AMD Ryzen 5 3500U", features);
         }

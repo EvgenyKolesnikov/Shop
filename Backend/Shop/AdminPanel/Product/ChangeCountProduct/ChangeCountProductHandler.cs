@@ -3,7 +3,7 @@ using Shop.Database;
 
 namespace Shop.AdminPanel.ChangeCountProduct
 {
-    public class ChangeCountProductHandler : IRequestHandler<ChangeCountProductCommand,ChangeCountProductResponse>
+    public class ChangeCountProductHandler : IRequestHandler<ChangeCountProductCommand,ProductResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -12,17 +12,17 @@ namespace Shop.AdminPanel.ChangeCountProduct
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<ChangeCountProductResponse> Handle(ChangeCountProductCommand command,CancellationToken cancellationToken)
+        public async Task<ProductResponse> Handle(ChangeCountProductCommand command,CancellationToken cancellationToken)
         {
             var product = await _shopDbContext.Products.FindAsync(command.ProductId);
 
-            if (product == null) { return new ChangeCountProductResponse() { Message = "Товар не существует" }; };
+            if (product == null) { return new ProductResponse() { Message = "Товар не существует" }; };
 
             product.Count = command.Count;
 
             await _shopDbContext.SaveChangesAsync(cancellationToken);
 
-            return new ChangeCountProductResponse() {Product = product, Message = "Success" };
+            return new ProductResponse() {Product = product, Message = "Success" };
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Shop.AdminPanel;
 using Shop.AdminPanel.ChangeCountProduct;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateCategoryFeatures;
@@ -27,64 +28,92 @@ namespace Shop.Controllers
             _mediator = mediator;
         }
 
+
+        /// <summary>
+        /// Создать категорию
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost("CreateCategory")]
-        public async Task<Category> CreateCategory(CreateCategoryCommand command)
+        public async Task<CategoryResponse> CreateCategory(CreateCategoryCommand command)
         {
-            var category = await _mediator.Send(command);
+            var categoryResponse = await _mediator.Send(command);
 
             foreach(var feature in command.Features)
             {
-                var featureCommand = new CreateCategoryFeaturesCommand() { CategoryId = category.Id, Name = feature };
+                var featureCommand = new CreateCategoryFeaturesCommand() { CategoryId = categoryResponse.Category.Id, Name = feature };
                 await _mediator.Send(featureCommand);
             }
 
-            return category;
+            return categoryResponse;
         }
 
+        /// <summary>
+        /// Создать атрибут категории
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost("CreateCategoryFeatures")]
         public async Task<FeaturesResponse> CreateFeature(CreateCategoryFeaturesCommand command)
         {
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+            
+            return response;
         }
 
 
+        /// <summary>
+        /// Создать продукт
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost("CreateProduct")]
-        public async Task<CreateProductResponse> CreateProduct(CreateProductCommand command)
+        public async Task<ProductResponse> CreateProduct(CreateProductCommand command)
         {
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+
+            return response;
         }
 
 
+        /// <summary>
+        /// Удалить продукт
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DeleteProduct/{id}")]
         public async Task<string> DeleteProduct([FromRoute] int id)
         {
-            var command = new DeleteProductCommand()
-            {
-                Id = id
-            };
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(new DeleteProductCommand() { Id = id });
+         
+            return response;
         }
 
       
+        /// <summary>
+        /// Удалить категорию
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DeleteCategory/{id}")]
-        public  Task<string> DeleteCategory([FromRoute]int id)
+        public async Task<string> DeleteCategory([FromRoute] int id)
         {
-            var command = new DeleteCategoryCommand()
-            {
-                Id = id
-            };
+            var response = await _mediator.Send(new DeleteCategoryCommand() { Id = id });
 
-            return  _mediator.Send(command);
+            return response;
         }
 
+        /// <summary>
+        /// Удалить атрибут
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DeleteFeature/{id}")]
-        public Task<FeaturesResponse> DeleteFeature([FromRoute] int id)
+        public async Task<string> DeleteFeature([FromRoute] int id)
         {
-            var command = new DeleteFeatureCommand()
-            {
-                Id = id
-            };
-            return _mediator.Send(command);
+            var response = await _mediator.Send(new DeleteFeatureCommand() { Id = id });
+            
+            return response;
         }
 
 
@@ -93,13 +122,39 @@ namespace Shop.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-    
         [HttpPut("EditProduct")]
-        public async Task<EditProductResponse> EditProduct(EditProductCommand command)
+        public async Task<ProductResponse> EditProduct(EditProductCommand command)
         {
-            return await _mediator.Send(command);
+            var reponse = await _mediator.Send(command);
+
+            return reponse;
         }
 
+        /// <summary>
+        /// Редактирование категории
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("EditCategory")]
+        public async Task<CategoryResponse> EditCategoryCommand(EditCategoryCommand command)
+        {
+            var response = await _mediator.Send(command);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Редактирование атрибута
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("EditFeature")]
+        public async Task<FeaturesResponse> EditFeature(EditFeatureCommand command)
+        {
+            var response = await _mediator.Send(command);
+            
+            return response;
+        }
 
         /// <summary>
         /// Изменить кол-во товара
@@ -107,21 +162,11 @@ namespace Shop.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("ChangeCountProduct")]
-        public async Task<ChangeCountProductResponse> ChangeCountProduct(ChangeCountProductCommand command)
+        public async Task<ProductResponse> ChangeCountProduct(ChangeCountProductCommand command)
         {
-            return await _mediator.Send(command);
-        }
+            var response = await _mediator.Send(command);
 
-        [HttpPut("EditCategory")]
-        public async Task<Category> EditCategoryCommand(EditCategoryCommand command)
-        {
-            return await _mediator.Send(command);
-        }
-
-        [HttpPut("EditFeature")]
-        public async Task<FeaturesResponse> EditFeature(EditFeatureCommand command)
-        {
-            return await _mediator.Send(command);
+            return response;
         }
 
     }

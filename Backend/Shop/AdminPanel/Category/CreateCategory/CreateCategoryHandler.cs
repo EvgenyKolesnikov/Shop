@@ -5,7 +5,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-    public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Category>
+    public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -14,7 +14,7 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<Category> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
+        public async Task<CategoryResponse> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
            List<Feature> features = new List<Feature>();
 
@@ -22,7 +22,6 @@ namespace Shop.AdminPanel.Handlers
             {
                 features.Add(new Feature() { Name = feature });
             }
-           
             
             var category = new Category()
             {
@@ -35,7 +34,13 @@ namespace Shop.AdminPanel.Handlers
             await _shopDbContext.Categories.AddAsync(category);
             await _shopDbContext.SaveChangesAsync();
 
-            return category;
+            var response = new CategoryResponse() 
+            { 
+                Category = category,
+                Message = "Success"
+            };
+
+            return response;
         }
     }
 }

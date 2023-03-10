@@ -31,7 +31,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Features
 
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Продукты", Features = new List<string>() { "Цвет" } });
            
-            var editableFeature = await _mediator.Send(new EditFeatureCommand() {Id = category.Features.First().Id,Name = "Бренд" });
+            var editableFeature = await _mediator.Send(new EditFeatureCommand() {Id = category.Category.Features.First().Id,Name = "Бренд" });
 
             var feature = _shopDbContext.Features.First();
 
