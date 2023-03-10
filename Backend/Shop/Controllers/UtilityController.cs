@@ -71,10 +71,10 @@ namespace Shop.Controllers
                 ProductId = product1.Product.Id,
            
                 FeatureValue = new Dictionary<int, string>() {
-                { feature1.Id, "Apple" },
-                { feature2.Id, "M1" },
-                { feature3.Id, "интегрированный" },
-                { feature4.Id, "16 ГБ" }
+                { feature1.Feature.Id, "Apple" },
+                { feature2.Feature.Id, "M1" },
+                { feature3.Feature.Id, "интегрированный" },
+                { feature4.Feature.Id, "16 ГБ" }
             }
             });
 
@@ -82,10 +82,10 @@ namespace Shop.Controllers
             {
                 ProductId = product2.Product.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature1.Id, "Acer" },
-                { feature2.Id, "AMD Ryzen 5 3500U" },
-                { feature3.Id, "AMD Radeon Vega 8" },
-                { feature4.Id, "8 ГБ" }
+                { feature1.Feature.Id, "Acer" },
+                { feature2.Feature.Id, "AMD Ryzen 5 3500U" },
+                { feature3.Feature.Id, "AMD Radeon Vega 8" },
+                { feature4.Feature.Id, "8 ГБ" }
             }
             });
 

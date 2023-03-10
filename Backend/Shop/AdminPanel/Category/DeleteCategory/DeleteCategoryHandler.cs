@@ -26,7 +26,7 @@ namespace Shop.AdminPanel.DeleteCategory
 
                     foreach(var childCategory in childrenCategories)
                     {
-                        childCategory.ParentCategory = null;
+                        childCategory.ParentCategory = category.ParentCategory;
                     }
 
                     _shopDbContext.SaveChanges();

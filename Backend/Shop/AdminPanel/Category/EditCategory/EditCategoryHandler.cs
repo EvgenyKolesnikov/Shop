@@ -15,25 +15,31 @@ namespace Shop.AdminPanel.EditCategory
 
         public async Task<Category> Handle(EditCategoryCommand command, CancellationToken cancellationToken)
         {
-            var category = await _shopDbContext.Categories.FindAsync(command.CategoryId);
+            var editCategory = await _shopDbContext.Categories.FindAsync(command.CategoryId);
 
-            if (category == null) return null;
+            if (editCategory == null) return null;
 
-            category.Name = command.Name;
+            editCategory.Name = command.Name;
 
             if (command.ParentCategoryId != null && command.ParentCategoryId != 0)
             {
-                var parentCategory = await _shopDbContext.Categories.FindAsync(command.ParentCategoryId);
+                var newParentCategory = await _shopDbContext.Categories.FindAsync(command.ParentCategoryId);
+                var childrenCategories = editCategory.ChildCategories.ToList();
 
-                category.ParentCategory = parentCategory;
-                category.ParentCategoryId = command.ParentCategoryId;
+                
+                foreach (var childCategory in childrenCategories)
+                {
+                    childCategory.ParentCategory = editCategory.ParentCategory;
+                }
+
+                editCategory.ParentCategory = newParentCategory;
+                editCategory.ParentCategoryId = newParentCategory.Id;
             }
 
-           
 
             await _shopDbContext.SaveChangesAsync();
 
-            return category;
+            return editCategory;
         }
     }
 }

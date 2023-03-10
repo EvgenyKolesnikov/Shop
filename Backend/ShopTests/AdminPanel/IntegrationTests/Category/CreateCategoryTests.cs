@@ -10,6 +10,7 @@ using Xunit;
 
 namespace ShopTests.AdminPanel.IntegrationTests.Category
 {
+    [Collection("IntegrationTests")]
     public class CreateCategoryTests
     {
         private readonly ShopDbContext _shopDbContext;
@@ -35,8 +36,6 @@ namespace ShopTests.AdminPanel.IntegrationTests.Category
             var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Id });
 
             var features = _shopDbContext.Features.ToList();
-
-
 
             var _category1 = _shopDbContext.Categories.Find(category1.Id);
             var _category2 = _shopDbContext.Categories.Find(category2.Id);

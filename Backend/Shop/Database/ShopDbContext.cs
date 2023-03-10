@@ -9,7 +9,7 @@ namespace Shop.Database
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options)
         {
            // Database.EnsureDeleted();
-            Database.EnsureCreated();
+           // Database.EnsureCreated();
             
         }
 

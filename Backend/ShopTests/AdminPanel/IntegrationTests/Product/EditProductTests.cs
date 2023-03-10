@@ -12,6 +12,7 @@ using Xunit;
 
 namespace ShopTests.AdminPanel.IntegrationTests.Product
 {
+    [Collection("IntegrationTests")]
     public class EditProductTests
     {
         private readonly ShopDbContext _shopDbContext;
@@ -24,7 +25,10 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
         }
 
 
-
+        /// <summary>
+        /// Редактирование Продукта, и установка значений FeatureValues
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task EditProduct()
         {
@@ -57,8 +61,8 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Info = "EditedInfo",
                 CategoryId = category2.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature3.Id, "Acer" },
-                { feature4.Id, "AMD Ryzen 5 3500U" }
+                { feature3.Feature.Id, "Acer" },
+                { feature4.Feature.Id, "AMD Ryzen 5 3500U" }
             }
             });
 
@@ -113,8 +117,8 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Info = "EditedInfo",
                 CategoryId = category.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature1.Id, "Acer" },
-                { feature2.Id, "AMD Ryzen 5 3500U" }
+                { feature1.Feature.Id, "Acer" },
+                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
             }
             });
 
@@ -169,8 +173,8 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Info = "EditedInfo",
                 CategoryId = category.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature1.Id, "Acer" },
-                { feature2.Id, "AMD Ryzen 5 3500U" }
+                { feature1.Feature.Id, "Acer" },
+                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
             }
             });
 
@@ -183,8 +187,8 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Info = "EditedInfo",
                 CategoryId = category.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature1.Id, "Acer" },
-                { feature2.Id, "AMD Ryzen 5 3500U" }
+                { feature1.Feature.Id, "Acer" },
+                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
             }
             });
 

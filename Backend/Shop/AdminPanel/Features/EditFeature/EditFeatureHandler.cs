@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Shop.AdminPanel.CreateCategoryFeatures;
 using Shop.Database;
 using Shop.Model;
 
 namespace Shop.AdminPanel.EditFeature
 {
-    public class EditFeatureHandler : IRequestHandler<EditFeatureCommand, Feature>
+    public class EditFeatureHandler : IRequestHandler<EditFeatureCommand, FeaturesResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -14,7 +15,7 @@ namespace Shop.AdminPanel.EditFeature
         }
 
 
-        public async Task<Feature> Handle(EditFeatureCommand command, CancellationToken cancellationToken)
+        public async Task<FeaturesResponse> Handle(EditFeatureCommand command, CancellationToken cancellationToken)
         {
             var feature = await _shopDbContext.Features.FindAsync(command.Id);
 
@@ -24,7 +25,9 @@ namespace Shop.AdminPanel.EditFeature
 
             await _shopDbContext.SaveChangesAsync();
 
-            return feature;
+            var response = new FeaturesResponse() { Feature = feature, result = "Feature add"};
+
+            return response;
         }
     }
 }

@@ -11,6 +11,7 @@ using Xunit.Sdk;
 
 namespace Shop.AdminPanel.IntegrationTests
 {
+    [Collection("IntegrationTests")]
     public class CreateProductTests 
     {
         private readonly ShopDbContext _shopDbContext;

@@ -38,12 +38,11 @@ namespace Shop.Controllers
                 await _mediator.Send(featureCommand);
             }
 
-
             return category;
         }
 
         [HttpPost("CreateCategoryFeatures")]
-        public async Task<CreateCategoryFeaturesResponse> CreateFeature(CreateCategoryFeaturesCommand command)
+        public async Task<FeaturesResponse> CreateFeature(CreateCategoryFeaturesCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -54,6 +53,7 @@ namespace Shop.Controllers
         {
             return await _mediator.Send(command);
         }
+
 
         [HttpDelete("DeleteProduct/{id}")]
         public async Task<string> DeleteProduct([FromRoute] int id)
@@ -78,7 +78,7 @@ namespace Shop.Controllers
         }
 
         [HttpDelete("DeleteFeature/{id}")]
-        public Task<string> DeleteFeature([FromRoute] int id)
+        public Task<FeaturesResponse> DeleteFeature([FromRoute] int id)
         {
             var command = new DeleteFeatureCommand()
             {
@@ -119,7 +119,7 @@ namespace Shop.Controllers
         }
 
         [HttpPut("EditFeature")]
-        public async Task<Feature> EditFeature(EditFeatureCommand command)
+        public async Task<FeaturesResponse> EditFeature(EditFeatureCommand command)
         {
             return await _mediator.Send(command);
         }

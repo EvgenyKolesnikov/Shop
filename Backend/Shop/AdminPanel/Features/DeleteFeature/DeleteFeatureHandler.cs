@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Shop.AdminPanel.CreateCategoryFeatures;
 using Shop.Database;
 
 namespace Shop.AdminPanel.DeleteFeature
 {
-    public class DeleteFeatureHandler : IRequestHandler<DeleteFeatureCommand, string>
+    public class DeleteFeatureHandler : IRequestHandler<DeleteFeatureCommand, FeaturesResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -12,23 +13,24 @@ namespace Shop.AdminPanel.DeleteFeature
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<string> Handle(DeleteFeatureCommand request, CancellationToken cancellationToken)
+        public async Task<FeaturesResponse> Handle(DeleteFeatureCommand request, CancellationToken cancellationToken)
         {
             var feature = _shopDbContext.Features.Find(request.Id);
+            var response = new FeaturesResponse();
 
             if (feature != null)
             {
                 _shopDbContext.Features.Remove(feature);
                 await _shopDbContext.SaveChangesAsync();
 
-
-                return $"Feature '{feature.Name}' was removed";
+                response.Feature = feature;
+                response.result = $"Feature '{feature.Name}' was removed";
             }
             else
             {
-                return "Feature Not Found";
+                response.result = "Feature Not Found";
             }
-
+            return response;
         }
     }
 }

@@ -12,7 +12,7 @@ using Xunit.Priority;
 
 namespace Shop.AdminPanel.IntegrationTests
 {
-    [DefaultPriority(1)]
+    [Collection("IntegrationTests")]
     public class ChangeCountProductChangesTests
     {
         private readonly ShopDbContext _shopDbContext;

@@ -6,7 +6,7 @@ using Shop.Model;
 
 namespace Shop.AdminPanel.Handlers
 {
-    public class CreateCategoryFeaturesHandler : IRequestHandler<CreateCategoryFeaturesCommand, CreateCategoryFeaturesResponse>
+    public class CreateCategoryFeaturesHandler : IRequestHandler<CreateCategoryFeaturesCommand, FeaturesResponse>
     {
         private readonly ShopDbContext _shopDbContext;
 
@@ -15,9 +15,9 @@ namespace Shop.AdminPanel.Handlers
             _shopDbContext = shopDbContext;
         }
 
-        public async Task<CreateCategoryFeaturesResponse> Handle(CreateCategoryFeaturesCommand command, CancellationToken cancellationToken)
+        public async Task<FeaturesResponse> Handle(CreateCategoryFeaturesCommand command, CancellationToken cancellationToken)
         {
-            var response = new CreateCategoryFeaturesResponse();
+            var response = new FeaturesResponse();
 
 
             // Ищем категорию
@@ -37,7 +37,6 @@ namespace Shop.AdminPanel.Handlers
 
                 if (existCategory != null)
                 {
-                    response.Id = existCategory.Id;
                     response.result = "Feature already exist in current category";
                     return response;
                 }
@@ -47,7 +46,7 @@ namespace Shop.AdminPanel.Handlers
                     existFeature.Categories.Add(category);
                     await _shopDbContext.SaveChangesAsync();
 
-                    response.Id = existFeature.Id;
+                    response.Feature = existFeature;
                     response.result = "Feature was linked with current category";
                     return response;
                 }
@@ -78,7 +77,7 @@ namespace Shop.AdminPanel.Handlers
                 }
                 await _shopDbContext.SaveChangesAsync();
 
-                response.Id = feature.Id;
+                response.Feature = feature;
                 response.result = "New feature has been added";
                 return response;
             }

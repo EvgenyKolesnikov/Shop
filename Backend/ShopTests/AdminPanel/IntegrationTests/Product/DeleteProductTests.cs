@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Shop.AdminPanel.IntegrationTests
 {
+    [Collection("IntegrationTests")]
     public class DeleteProductTests
     {
         private readonly ShopDbContext _shopDbContext;
@@ -72,9 +73,9 @@ namespace Shop.AdminPanel.IntegrationTests
             {
                 ProductId = product.Product.Id,
                 FeatureValue = new Dictionary<int, string>() {
-                { feature.Id, "Acer" },
-                { feature2.Id, "AMD Ryzen 5 3500U" },
-                { feature3.Id, "AMD Radeon Vega 8" },
+                { feature.Feature.Id, "Acer" },
+                { feature2.Feature.Id, "AMD Ryzen 5 3500U" },
+                { feature3.Feature.Id, "AMD Radeon Vega 8" },
             }
             });
 
