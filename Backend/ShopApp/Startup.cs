@@ -74,11 +74,12 @@ namespace Shop
 
         private void AddDbContext(IServiceCollection services)
         {
-            var locaConnection = Configuration.GetConnectionString("DefaultConnection");
-            var serverconnection = "workstation id=ShopyDb.mssql.somee.com;packet size=4096;user id=jackSmith_SQLLogin_1;pwd=z4uy7pegsm;data source=ShopyDb.mssql.somee.com;persist security info=False;initial catalog=ShopyDb";
+            var local = "Data Source=DESKTOP-M5L262K\\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var serverconnection = "Data Source=SQL8002.site4now.net;Initial Catalog=db_a962b3_shopdb;User Id=db_a962b3_shopdb_admin;Password=1233210qQ";
             var docker = "Data Source=.;Initial Catalog=Shop;User Id=sa;Password=123qweQWE!";
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(locaConnection)
+            options.UseSqlServer(connectionString)
             .UseLazyLoadingProxies());
         }
     }

@@ -67,6 +67,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             });
 
 
+
             //Assert
             var productDb = _shopDbContext.Products.Find(product.Product.Id);
 

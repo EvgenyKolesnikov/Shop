@@ -14,12 +14,12 @@ namespace Shop.AdminPanel.DeleteProduct
 
         public async Task<string> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = _shopDbContext.Products.Find(request.Id);
+            var product = await _shopDbContext.Products.FindAsync(request.Id);
 
             if (product != null)
             {
                 _shopDbContext.Products.Remove(product);
-                _shopDbContext.SaveChanges();
+                await _shopDbContext.SaveChangesAsync();
 
 
                 return $"Product '{product.Name}' was removed";

@@ -20,9 +20,9 @@ namespace Shop.Repository
             return products;
         }
 
-        public Product GetById(int Id)
+        public async Task<Product> GetById(int Id)
         {
-            var product = _shopDbContext.Products.FirstOrDefault(x => x.Id == Id);
+            var product = await _shopDbContext.Products.FirstOrDefaultAsync(x => x.Id == Id);
 
 
             return product;
@@ -50,13 +50,13 @@ namespace Shop.Repository
             return categories;
         }
 
-        public IEnumerable<ProductResponseDTO> GetProductsByCategory(int id)
+        public async Task<IEnumerable<ProductResponseDTO>> GetProductsByCategory(int id)
         {
-            var products = _shopDbContext.Categories.Find(id)?.Products;
+            var products = await _shopDbContext.Categories.FindAsync(id);
 
             List<ProductResponseDTO> result = new List<ProductResponseDTO>();
 
-            foreach (var product in products)
+            foreach (var product in products?.Products ?? new List<Product>())
             {
                 result.Add(new ProductResponseDTO(product));
             }

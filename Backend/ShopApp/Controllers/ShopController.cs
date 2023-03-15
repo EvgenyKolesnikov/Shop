@@ -45,9 +45,9 @@ namespace Shop.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("GetProductById")]
-        public ProductResponseDTO GetProductById(int Id)
+        public async Task<ProductResponseDTO> GetProductById(int Id)
         {
-            var product = _productRepository.GetById(Id);
+            var product = await _productRepository.GetById(Id);
 
             var response = new ProductResponseDTO(product);
 
@@ -131,7 +131,7 @@ namespace Shop.Controllers
         public async Task<IEnumerable<ProductResponseDTO>> GetProductsByCategoryd([FromRoute] int id)
         {
 
-            var response = _productRepository.GetProductsByCategory(id);
+            var response =  await _productRepository.GetProductsByCategory(id);
             return response;
         }
     }

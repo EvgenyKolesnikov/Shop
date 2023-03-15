@@ -22,9 +22,9 @@ namespace Shop.AdminPanel.EditProduct
 
             if (product == null) { return new ProductResponse() { Message = "Товар отсутствует"};}
 
-            product.Name = command.Name;
-            product.Price = command.Price;
-            product.Info = command.Info;
+            product.Name = command.Name ?? product.Name;
+            product.Price = command.Price ?? product.Price;
+            product.Info = command.Info ?? product.Info;
 
             // если меняеются категории, то набор FeatureValue удаляется
             if (command.CategoryId != null)

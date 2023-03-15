@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  shop:
+    image: ${DOCKER_REGISTRY-}shop
+    build:
+      context: .
+      dockerfile: Shop\Dockerfile
