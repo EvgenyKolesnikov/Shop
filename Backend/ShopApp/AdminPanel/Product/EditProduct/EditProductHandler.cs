@@ -18,7 +18,7 @@ namespace Shop.AdminPanel.EditProduct
         public async Task<ProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
-            var features = product?.Category?.Features;
+            var features = GetParentFeatures(product);
 
             if (product == null) { return new ProductResponse() { Message = "Товар отсутствует"};}
 
@@ -65,6 +65,22 @@ namespace Shop.AdminPanel.EditProduct
             await _shopDbContext.SaveChangesAsync();
 
             return new ProductResponse() { Product = product, Message = "Success"};
+        }
+
+        private List<Feature> GetParentFeatures(Product product)
+        {
+            var features = new List<Feature>();
+
+            var category = product.Category;
+
+            while (category != null) 
+            {
+                features.AddRange(category.Features);
+                category = category.ParentCategory;
+            }
+
+
+            return features;
         }
     }
 }

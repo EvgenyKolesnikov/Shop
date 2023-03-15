@@ -76,10 +76,9 @@ namespace Shop
         {
             var local = "Data Source=DESKTOP-M5L262K\\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var serverconnection = "Data Source=SQL8002.site4now.net;Initial Catalog=db_a962b3_shopdb;User Id=db_a962b3_shopdb_admin;Password=1233210qQ";
             var docker = "Data Source=.;Initial Catalog=Shop;User Id=sa;Password=123qweQWE!";
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(connectionString)
+            options.UseSqlServer(local)
             .UseLazyLoadingProxies());
         }
     }

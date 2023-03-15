@@ -26,6 +26,7 @@ namespace Shop.Repository.Response
 
             Features = product.FeatureValues.Select(f => new FeatureResponseDTO()
             {
+                FeatureId = f.FeatureId,
                 Name = f.Feature?.Name,
                 Value = f.Value
             }).ToList();
