@@ -18,7 +18,7 @@ namespace Shop.AdminPanel.EditProduct
         public async Task<ProductResponse> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = _shopDbContext.Products.FirstOrDefault(i => i.Id == command.ProductId);
-            var features = GetParentFeatures(product);
+            
 
             if (product == null) { return new ProductResponse() { Message = "Товар отсутствует"};}
 
@@ -35,15 +35,16 @@ namespace Shop.AdminPanel.EditProduct
                 {
                     product.Category = newCategory;
                     product.FeatureValues.RemoveAll(i => product.FeatureValues.Contains(i));
-                    features = newCategory.Features;
                 }
             }
-            
+
+            var features = GetParentFeatures(product?.Category);
+
             //создание нового набора FeatureValues, либо редактирование существующего
             foreach (var feature in features ?? new List<Feature>())
             {
                 var existFeatureValue = product.FeatureValues.FirstOrDefault(i => i.FeatureId == feature.Id);
-                var value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id);
+                var value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id).Value;
 
                 //add feature
                 if (existFeatureValue == null)
@@ -52,13 +53,13 @@ namespace Shop.AdminPanel.EditProduct
                     {
                         Feature = feature,
                         Product = product,
-                        Value = value.Value
+                        Value = value
                     };
                     await _shopDbContext.AddAsync(featureitem);
                 }
                 else
                 {
-                    existFeatureValue.Value = value.Value;
+                    existFeatureValue.Value = value;
                 }
             }
 
@@ -67,16 +68,17 @@ namespace Shop.AdminPanel.EditProduct
             return new ProductResponse() { Product = product, Message = "Success"};
         }
 
-        private List<Feature> GetParentFeatures(Product product)
+        // Написать тесты на эту хуйню
+        private List<Feature> GetParentFeatures(Category? category)
         {
             var features = new List<Feature>();
 
-            var category = product.Category;
+            var _category = category;
 
-            while (category != null) 
+            while (_category != null) 
             {
-                features.AddRange(category.Features);
-                category = category.ParentCategory;
+                features.AddRange(_category.Features);
+                _category = _category.ParentCategory;
             }
 
 

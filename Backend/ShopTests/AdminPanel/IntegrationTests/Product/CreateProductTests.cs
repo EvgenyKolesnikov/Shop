@@ -29,14 +29,36 @@ namespace Shop.AdminPanel.IntegrationTests
         {
             //Arrange
             _shopDbContext.TruncateAllTables();
-            var command = new CreateProductCommand() { CategoryId = 1,Name = "Чайник",Price = 150 };
+
+            var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Цвет" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Ширина" });
+
+
+            var command = new CreateProductCommand()
+            {
+                CategoryId = category.Category.Id,
+                Name = "Чайник",
+                Price = 150,
+                FeatureValue = new Dictionary<int, string>() 
+                { 
+                    { feature1.Feature.Id, "Желтый" },
+                    { 123456 , "kek" }  // Wrong Parameter, it must not be write
+                }
+            };
 
             //Act
             var createProductResponse = await _mediator.Send(command);
             
             //Assert
             var product = await _shopDbContext.Products.FindAsync(createProductResponse.Product.Id);
+            var features = product.FeatureValues.Select(i => i.Value).ToList();
+
             Assert.Equal(product, createProductResponse.Product);
+            
+            Assert.Equal(2, features.Count);
+            Assert.Equal( "Желтый", product.FeatureValues.First(i => i.Feature.Name == "Цвет").Value);
+            Assert.Null( product.FeatureValues.First(i => i.Feature.Name == "Ширина").Value);
         }
 
         /// <summary>

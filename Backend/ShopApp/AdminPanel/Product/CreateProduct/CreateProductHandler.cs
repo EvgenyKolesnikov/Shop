@@ -32,8 +32,10 @@ namespace Shop.AdminPanel.CreateProduct
                 Name = command.Name,
                 Category = category,
                 Info = command.Info,
-                Price = command.Price
+                Price = command.Price,
+                Count = command.Count
             };
+
             if (category != null)
             {
                 foreach (var feature in features)
@@ -42,6 +44,7 @@ namespace Shop.AdminPanel.CreateProduct
                     {
                         Feature = feature,
                         Product = product,
+                        Value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id).Value
                     };
                     product.FeatureValues.Add(value);
                 }

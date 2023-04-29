@@ -38,6 +38,7 @@ namespace ShopTests
         public void AddDbContext(IServiceCollection services)
         {
             var locaConnection = "Data Source=DESKTOP-M5L262K\\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
+            
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(locaConnection)
             .UseLazyLoadingProxies());

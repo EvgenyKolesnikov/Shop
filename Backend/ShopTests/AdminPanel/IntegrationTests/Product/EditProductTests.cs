@@ -36,20 +36,21 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             _shopDbContext.TruncateAllTables();
 
             var category = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null });
-            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = null });
+            var category2 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category.Category.Id });
 
-            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Бренд" });
-            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Процессор" });
+            var feature1 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Цвет" });
+            var feature2 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category.Category.Id, Name = "Ширина" });
 
-            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Цвет" });
-            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Ширина" });
+            var feature3 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Бренд" });
+            var feature4 = await _mediator.Send(new CreateCategoryFeaturesCommand() { CategoryId = category2.Category.Id, Name = "Процессор" });
 
             var product = await _mediator.Send(new CreateProductCommand()
             {
                 Name = "MacBook Pro",
                 CategoryId = category.Category.Id,
                 Price = 150000,
-                Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос "
+                Info = "Ноутбук Apple MacBook Pro A2485, 16.2 Apple M1 Max 10 core 32ГБ,1ТБ SSD,Mac OS,MK1A3B / A,серый космос ",
+                Count = 5
             });
 
             //Act
@@ -57,10 +58,12 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
             {
                 ProductId = product.Product.Id,
                 Name = "EditedName",
-                Price = 1000,
                 Info = "EditedInfo",
+                Price = 1000,
                 CategoryId = category2.Category.Id,
                 FeatureValue = new Dictionary<int, string>() {
+          
+                { feature2.Feature.Id, "Ширина" },
                 { feature3.Feature.Id, "Acer" },
                 { feature4.Feature.Id, "AMD Ryzen 5 3500U" }
             }

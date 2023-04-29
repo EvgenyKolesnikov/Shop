@@ -19,6 +19,7 @@ namespace Shop.AdminPanel.GetCategoryFeatures
             if (category == null) return new List<Feature>();
             var allFeatures = category?.Features.ToList();
 
+            //TODO Вынести в общий метод
             var ParentCategory = category?.ParentCategory;
             while(ParentCategory != null)
             {

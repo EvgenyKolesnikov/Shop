@@ -78,7 +78,7 @@ namespace Shop
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var docker = "Data Source=.;Initial Catalog=Shop;User Id=sa;Password=123qweQWE!";
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(local)
+            options.UseSqlServer(connectionString)
             .UseLazyLoadingProxies());
         }
     }
