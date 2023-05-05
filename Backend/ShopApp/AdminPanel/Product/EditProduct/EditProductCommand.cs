@@ -15,7 +15,16 @@ namespace Shop.AdminPanel.EditProduct
 
 
         /// <example>{"FeatureId":1,"FeatureValue":"Red Color"} </example>
-        public Dictionary<int,string> FeatureValue { get; set; }
+       // public Dictionary<int,string> FeatureValue { get; set; }
 
+        public List<FeatureIdValue> FeatureValue { get; set; } = new();
+
+    }
+
+    
+    public class FeatureIdValue
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
     }
 }

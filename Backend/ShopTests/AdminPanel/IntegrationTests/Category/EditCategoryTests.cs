@@ -2,6 +2,7 @@
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.EditCategory;
 using Shop.Database;
+using Shop.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace ShopTests.AdminPanel.IntegrationTests.Category
             var category3 = await _mediator.Send(new CreateCategoryCommand() { Name = "Ноутбуки", ParentCategoryId = category2.Category.Id, Features = new List<string>() { "Ширина" } });
             var category4 = await _mediator.Send(new CreateCategoryCommand() { Name = "Моноблоки", ParentCategoryId = category2.Category.Id, Features = new List<string>() { "Ширина" } });
 
-            var editedCategory = await _mediator.Send(new EditCategoryCommand() {CategoryId = category2.Category.Id, Name = "Компьютеры2",ParentCategoryId = category3.Category.Id });
+            var editedCategory = await _mediator.Send(new EditCategoryCommand() {CategoryId = category2.Category.Id, ParentCategoryId = category3.Category.Id });
 
             var categoryDb1 = _shopDbContext.Categories.Find(category1.Category.Id);
             var categoryDb2 = _shopDbContext.Categories.Find(category2.Category.Id);
@@ -49,8 +50,21 @@ namespace ShopTests.AdminPanel.IntegrationTests.Category
             Assert.Equal(categoryDb2.ParentCategory, categoryDb3);
             Assert.Equal(categoryDb3.ParentCategory, categoryDb1);
             Assert.Equal(categoryDb4.ParentCategory, categoryDb1);
+        }
 
-            Assert.Equal(categoryDb2.Name, "Компьютеры2");
+        [Fact]
+        public async void SimpleEdit()
+        {
+            _shopDbContext.TruncateAllTables();
+
+            var category1 = await _mediator.Send(new CreateCategoryCommand() { Name = "Электроника", ParentCategoryId = null, Features = new List<string>() { "Бренд", "Цвет" } });
+
+
+            var editedCategory = await _mediator.Send(new EditCategoryCommand() { CategoryId = category1.Category.Id, ParentCategoryId = null, Name = "EditedCategory" });
+            var categoryDb1 = _shopDbContext.Categories.Find(category1.Category.Id);
+
+
+            Assert.Equal("EditedCategory", categoryDb1.Name);
         }
     }
 }

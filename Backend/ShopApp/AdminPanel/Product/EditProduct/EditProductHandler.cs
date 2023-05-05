@@ -2,7 +2,9 @@
 using Shop.AdminPanel.GetCategoryFeatures;
 using Shop.Database;
 using Shop.Model;
+using ShopApp.Common;
 using System.Linq;
+
 
 namespace Shop.AdminPanel.EditProduct
 {
@@ -38,13 +40,14 @@ namespace Shop.AdminPanel.EditProduct
                 }
             }
 
-            var features = GetParentFeatures(product?.Category);
+        
+            var features = Tree.GetParentFeatures(product?.Category);
 
             //создание нового набора FeatureValues, либо редактирование существующего
             foreach (var feature in features ?? new List<Feature>())
             {
                 var existFeatureValue = product.FeatureValues.FirstOrDefault(i => i.FeatureId == feature.Id);
-                var value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id).Value;
+                var value = command.FeatureValue?.FirstOrDefault(i => i.Id == feature.Id)?.Value;
 
                 //add feature
                 if (existFeatureValue == null)
@@ -66,23 +69,6 @@ namespace Shop.AdminPanel.EditProduct
             await _shopDbContext.SaveChangesAsync();
 
             return new ProductResponse() { Product = product, Message = "Success"};
-        }
-
-        // Написать тесты на эту хуйню
-        private List<Feature> GetParentFeatures(Category? category)
-        {
-            var features = new List<Feature>();
-
-            var _category = category;
-
-            while (_category != null) 
-            {
-                features.AddRange(_category.Features);
-                _category = _category.ParentCategory;
-            }
-
-
-            return features;
         }
     }
 }

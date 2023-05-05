@@ -10,7 +10,6 @@ namespace Shop.Database
         {
            // Database.EnsureDeleted();
             Database.EnsureCreated();
-            
         }
 
         public DbSet<Category> Categories { get; set; } 

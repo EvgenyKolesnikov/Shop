@@ -4,6 +4,7 @@ using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateProduct;
 using Shop.AdminPanel.EditProduct;
 using Shop.Database;
+using Shop.Model;
 
 namespace Shop.Controllers
 {
@@ -69,24 +70,25 @@ namespace Shop.Controllers
             await _mediator.Send(new EditProductCommand()
             {
                 ProductId = product1.Product.Id,
-           
-                FeatureValue = new Dictionary<int, string>() {
-                { feature1.Feature.Id, "Apple" },
-                { feature2.Feature.Id, "M1" },
-                { feature3.Feature.Id, "интегрированный" },
-                { feature4.Feature.Id, "16 ГБ" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue() { Id = feature1.Feature.Id, Value = "Apple" },
+                    new FeatureIdValue() { Id = feature2.Feature.Id, Value = "M1" },
+                    new FeatureIdValue() { Id = feature3.Feature.Id, Value = "интегрированный" },
+                    new FeatureIdValue() { Id = feature4.Feature.Id, Value = "16 ГБ" }
+                }
             });
 
             await _mediator.Send(new EditProductCommand()
             {
                 ProductId = product2.Product.Id,
-                FeatureValue = new Dictionary<int, string>() {
-                { feature1.Feature.Id, "Acer" },
-                { feature2.Feature.Id, "AMD Ryzen 5 3500U" },
-                { feature3.Feature.Id, "AMD Radeon Vega 8" },
-                { feature4.Feature.Id, "8 ГБ" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue() { Id = feature1.Feature.Id, Value = "Acer"},
+                    new FeatureIdValue() { Id = feature2.Feature.Id, Value = "AMD Ryzen 5 3500U"},
+                    new FeatureIdValue() { Id = feature3.Feature.Id, Value = "AMD Radeon Vega 8"},
+                    new FeatureIdValue() { Id = feature4.Feature.Id, Value = "8 ГБ"}
+                }
             });
 
             return "Success";

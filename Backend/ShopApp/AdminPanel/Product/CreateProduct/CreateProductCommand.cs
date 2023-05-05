@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Shop.AdminPanel.CreateProduct;
+using Shop.AdminPanel.EditProduct;
 using Shop.Model;
 
 namespace Shop.AdminPanel.CreateProduct
@@ -12,6 +13,7 @@ namespace Shop.AdminPanel.CreateProduct
         public float Price { get; set; }
         public int Count { get; set; }
 
-        public Dictionary<int, string> FeatureValue { get; set; } = new();
+        public List<FeatureIdValue> FeatureValue { get; set; } = new();
+       // public Dictionary<int, string> FeatureValue { get; set; } = new();
     }
 }

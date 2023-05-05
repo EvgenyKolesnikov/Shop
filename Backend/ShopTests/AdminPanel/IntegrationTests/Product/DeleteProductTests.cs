@@ -72,11 +72,13 @@ namespace Shop.AdminPanel.IntegrationTests
             await _mediator.Send(new EditProductCommand()
             {
                 ProductId = product.Product.Id,
-                FeatureValue = new Dictionary<int, string>() {
-                { feature.Feature.Id, "Acer" },
-                { feature2.Feature.Id, "AMD Ryzen 5 3500U" },
-                { feature3.Feature.Id, "AMD Radeon Vega 8" },
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue{Id = feature.Feature.Id, Value = "Acer" },
+                    new FeatureIdValue{Id = feature2.Feature.Id, Value = "AMD Ryzen 5 3500U" },
+                    new FeatureIdValue{Id = feature3.Feature.Id, Value = "AMD Radeon Vega 8" }
+
+                }
             });
 
             //Act

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Shop.AdminPanel.Commands;
 using Shop.AdminPanel.CreateProduct;
+using Shop.AdminPanel.EditProduct;
 using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
@@ -40,11 +41,16 @@ namespace Shop.AdminPanel.IntegrationTests
                 CategoryId = category.Category.Id,
                 Name = "Чайник",
                 Price = 150,
-                FeatureValue = new Dictionary<int, string>() 
-                { 
-                    { feature1.Feature.Id, "Желтый" },
-                    { 123456 , "kek" }  // Wrong Parameter, it must not be write
+                FeatureValue = new List<FeatureIdValue>() 
+                {
+                    new FeatureIdValue(){ Id = feature1.Feature.Id, Value = "Желтый" },
+                    new FeatureIdValue(){ Id = 123456, Value = "kek" }
                 }
+                //FeatureValue = new Dictionary<int, string>() 
+                //{ 
+                //    { feature1.Feature.Id, "Желтый" },
+                //    { 123456 , "kek" }  // Wrong Parameter, it must not be write
+                //}
             };
 
             //Act

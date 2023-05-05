@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.AdminPanel.GetCategoryFeatures;
 using Shop.Database;
 using Shop.Model;
-using Shop.Repository;
 using Shop.Repository.Response;
+using ShopApp.Repository.Products;
+using ShopApp.Repository.Response;
 using System.Diagnostics;
 
 namespace Shop.Controllers
@@ -27,14 +28,23 @@ namespace Shop.Controllers
         /// Получить список всех продуктов
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetProducts")]
-        public IEnumerable<ProductResponseDTO> GetProducts()
+        ///  <remarks>
+        /// Sort
+        /// 0 - ByName
+        /// 1 - ByPrice
+        /// 2 - ByCount
+        /// 3 - ByRating
+        ///
+        /// </remarks>
+        [HttpPost("GetProducts")]
+        public GetProductsResponse GetProducts(ProductFilterPrompt filter, int pageSize, int pageIndex)
         {
-            var products = _productRepository.GetList().ToList();
+            var products = _productRepository.GetList(filter);
 
-            var response = new List<ProductResponseDTO>();
+            var pagination = new Pagination<Product>(products, pageSize, pageIndex);
 
-            products.ForEach(product => response.Add(new ProductResponseDTO(product)));
+            var response = new GetProductsResponse(pagination);
+
 
             return response;
         }

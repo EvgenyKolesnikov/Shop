@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shop.Database;
 using Shop.Model;
 using Shop.Repository;
+using ShopApp.Repository.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

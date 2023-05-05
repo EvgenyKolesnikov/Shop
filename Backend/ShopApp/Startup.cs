@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.Database;
 using Shop.Model;
-using Shop.Repository;
+using ShopApp.Repository.Products;
 using System.Reflection;
 
 namespace Shop
@@ -36,15 +36,15 @@ namespace Shop
 
 
             services.AddTransient<IProductRepository<Product>, ProductRepository>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.AllowAnyOrigin();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAll", policy =>
+            //    {
+            //        policy.AllowAnyHeader();
+            //        policy.AllowAnyMethod();
+            //        policy.AllowAnyOrigin();
+            //    });
+            //});
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -75,11 +75,13 @@ namespace Shop
         private void AddDbContext(IServiceCollection services)
         {
             var local = "Data Source=DESKTOP-M5L262K\\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+           
             var docker = "Data Source=.;Initial Catalog=Shop;User Id=sa;Password=123qweQWE!";
             services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer(connectionString)
-            .UseLazyLoadingProxies());
+            options.UseSqlServer(local)
+            .UseLazyLoadingProxies()
+            .LogTo(Console.WriteLine,LogLevel.Information));
+            
         }
     }
 }

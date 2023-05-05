@@ -44,7 +44,7 @@ namespace Shop.AdminPanel.CreateProduct
                     {
                         Feature = feature,
                         Product = product,
-                        Value = command.FeatureValue.FirstOrDefault(i => i.Key == feature.Id).Value
+                        Value = command.FeatureValue?.FirstOrDefault(i => i.Id == feature.Id)?.Value
                     };
                     product.FeatureValues.Add(value);
                 }

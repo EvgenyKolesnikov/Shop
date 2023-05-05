@@ -1,13 +1,14 @@
 ﻿using Shop.Model;
+using Shop.Repository.Response;
 
-namespace Shop.Repository.Response
+namespace ShopApp.Repository.Products
 {
     public class ProductResponseDTO : Entity
     {
         public string? Name { get; set; }
         public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
-  
+
         public virtual List<FeatureResponseDTO> Features { get; set; }
         public string? Info { get; set; }
         public float? Price { get; set; }
@@ -19,7 +20,7 @@ namespace Shop.Repository.Response
             Id = product.Id;
             Name = product.Name;
             CategoryId = product.CategoryId;
-            CategoryName = product.Category?.Name ;
+            CategoryName = product.Category?.Name;
             Info = product.Info;
             Price = product.Price;
             Rating = product.Rating;

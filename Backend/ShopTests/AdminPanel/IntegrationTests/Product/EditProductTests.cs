@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ShopTests.AdminPanel.IntegrationTests.Product
+namespace ShopTests.AdminPanel.IntegrationTests
 {
     [Collection("IntegrationTests")]
     public class EditProductTests
@@ -61,12 +61,12 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Info = "EditedInfo",
                 Price = 1000,
                 CategoryId = category2.Category.Id,
-                FeatureValue = new Dictionary<int, string>() {
-          
-                { feature2.Feature.Id, "Ширина" },
-                { feature3.Feature.Id, "Acer" },
-                { feature4.Feature.Id, "AMD Ryzen 5 3500U" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue{Id = feature2.Feature.Id, Value = "Ширина" },
+                    new FeatureIdValue{Id = feature3.Feature.Id, Value = "Acer" },
+                    new FeatureIdValue{Id = feature4.Feature.Id, Value = "AMD Ryzen 5 3500U" },
+                }           
             });
 
 
@@ -120,10 +120,12 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Price = 1000,
                 Info = "EditedInfo",
                 CategoryId = category.Category.Id,
-                FeatureValue = new Dictionary<int, string>() {
-                { feature1.Feature.Id, "Acer" },
-                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue{Id = feature1.Feature.Id, Value = "Acer" },
+                    new FeatureIdValue{Id = feature2.Feature.Id, Value = "AMD Ryzen 5 3500U" }
+                 
+                }
             });
 
             //Assert
@@ -176,10 +178,12 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Price = 1000,
                 Info = "EditedInfo",
                 CategoryId = category.Category.Id,
-                FeatureValue = new Dictionary<int, string>() {
-                { feature1.Feature.Id, "Acer" },
-                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue{Id = feature1.Feature.Id, Value = "Acer" },
+                    new FeatureIdValue{Id = feature2.Feature.Id, Value = "AMD Ryzen 5 3500U" }
+
+                }
             });
 
       
@@ -190,10 +194,12 @@ namespace ShopTests.AdminPanel.IntegrationTests.Product
                 Price = 1000,
                 Info = "EditedInfo",
                 CategoryId = category.Category.Id,
-                FeatureValue = new Dictionary<int, string>() {
-                { feature1.Feature.Id, "Acer" },
-                { feature2.Feature.Id, "AMD Ryzen 5 3500U" }
-            }
+                FeatureValue = new List<FeatureIdValue>()
+                {
+                    new FeatureIdValue{Id = feature1.Feature.Id, Value = "Acer" },
+                    new FeatureIdValue{Id = feature2.Feature.Id, Value = "AMD Ryzen 5 3500U" }
+
+                }
             });
 
             //Assert

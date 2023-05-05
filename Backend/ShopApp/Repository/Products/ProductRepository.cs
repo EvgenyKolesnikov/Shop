@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Database;
 using Shop.Model;
-using Shop.Repository.Response;
+using ShopApp.Repository.Response;
 
-namespace Shop.Repository
+namespace ShopApp.Repository.Products
 {
     public class ProductRepository : IProductRepository<Product>
     {
@@ -13,12 +13,26 @@ namespace Shop.Repository
             _shopDbContext = shopDbContext;
         }
 
-        public IEnumerable<Product> GetList()
+        public IQueryable<Product> GetList(ProductFilterPrompt filter)
         {
-            var products = _shopDbContext.Products.ToList();
+            var query = _shopDbContext.Products.AsQueryable();
+
+            var products = ProductFilter.Filter(query, filter);
+
 
             return products;
         }
+
+        public Pagination<Product> GetProductsWithPagination(int pageSize, int pageIndex)
+        {
+            var products = _shopDbContext.Products.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            var response = new Pagination<Product>(products, pageSize, pageIndex);
+
+
+            return response;
+        }
+
 
         public async Task<Product> GetById(int Id)
         {
@@ -38,8 +52,8 @@ namespace Shop.Repository
         public IEnumerable<Category> GetCategoriesTree()
         {
             var categories = _shopDbContext.Categories.Where(c => c.ParentCategoryId == null).AsParallel().ToList();
-            
-            return categories; 
+
+            return categories;
         }
 
         public IEnumerable<Category> GetCategories()
@@ -63,5 +77,7 @@ namespace Shop.Repository
 
             return result;
         }
+
+
     }
 }
